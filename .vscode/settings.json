@@ -1,0 +1,94 @@
+{
+  // ====================================
+  // 共通設定
+  // ====================================
+  // Java以外のインデントサイズを2にする
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  // 半角スペースとTABを画面上に可視化する
+  "editor.renderWhitespace": "boundary",
+  // インデント時にタブではなくスペースを使用する
+  "editor.insertSpaces": true,
+  // 自動保存設定をする
+  "files.autoSave": "afterDelay",
+  // ファイル保存時、コードを整形する
+  "editor.formatOnSave": true,
+  // ファイル保存時、最終行に改行を挿入する
+  "files.insertFinalNewline": true,
+  // ファイル保存時、最終行以降の空行を削除する
+  "files.trimFinalNewlines": true,
+  // ファイル保存時、末尾の空白をトリミングする
+  "files.trimTrailingWhitespace": true,
+  // ファイル保存時、同時に行われるアクション
+  "editor.codeActionsOnSave": {
+    // Prettierのチェックを走らせる
+    "source.fixAll.prettier": true
+  },
+  // 入力時、コードを自動的に整形をする
+  "editor.formatOnType": true,
+  // ペースト時、コードを自動的に整形をする
+  "editor.formatOnPaste": true,
+  // ====================================
+  // 言語別個別設定
+  // ====================================
+  // 【Java】null解析を自動で行う
+  "java.compile.nullAnalysis.mode": "automatic",
+  // 【Java】build.gradleが保存された際に自動ビルドを行う
+  "java.configuration.updateBuildConfiguration": "automatic",
+  // 【JavaScript】自動インポートを有効にする
+  "javascript.suggest.autoImports": true,
+  // 【JavaScript】インポートパスの自動更新を有効にする
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  // 【CSS】デフォルトのLint機能を有効にする
+  "scss.validate": false,
+  "css.validate": false,
+  // 【HTML】DOCTYPE宣言書き換え
+  "emmet.variables": {
+    "lang": "ja" // => <html lang="ja">
+  },
+  // JSONスキーマの自動ダウンロードを有効にする
+  "json.schemaDownload.enable": true,
+  "json.validate.enable": false,
+  // ------------------------------------
+  // 言語別フォーマッター指定
+  // ------------------------------------
+  // Java
+  "[java]": {
+    "editor.tabSize": 4
+  },
+  // HTML
+  "[html]": {
+    // Prettierを適用する
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // CSS
+  "[css]": {
+    // Prettierを適用する
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // SCSS
+  "[scss]": {
+    // Prettierを適用する
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // JavaScript
+  "[javascript]": {
+    // Prettierを適用する
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // json
+  "[json]": {
+    // Prettierを適用する
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // yaml
+  "[yaml]": {
+    // Prettierを適用する
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // XML
+  "[xml]": {
+    // XML Toolsを適用する
+    "editor.defaultFormatter": "DotJoshJohnson.xml"
+  }
+}

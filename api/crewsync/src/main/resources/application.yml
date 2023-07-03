@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  # この設定しておくとhtmlファイルがホットスワップされる
+  thymeleaf:
+    cache: false
+    prefix: file:crewsync/src/main/resources/templates/
+  # shema.sqlとdata.sqlをspring起動時に毎時実行したい場合はmode: alwaysにする
+  sql:
+    init:
+      mode: never
+logging:
+  level:
+    root: INFO
+  file:
+    name: crewsync/logs/app.log
+# mybatis:
+#   mapper-locations: classpath:/com/example/demo-restapi/mappers/*.xml
+#   configuration:
+#     map-underscore-to-camel-case: true
