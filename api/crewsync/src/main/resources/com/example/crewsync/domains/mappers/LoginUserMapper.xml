@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+  "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.crewsync.domains.mappers.LoginUserMapper">
+  <resultMap type="com.example.crewsync.auth.LoginUser" id="userDetails">
+    <result property="id" column="id" />
+    <result property="email" column="email" />
+    <result property="avf" column="avf" />
+    <result property="username" column="username" />
+    <result property="password" column="password" />
+    <result property="locked" column="locked" />
+    <result property="expired" column="expired" />
+    <collection property="roles" ofType="java.lang.String">
+      <result column="code_nm" />
+    </collection>
+  </resultMap>
+  <!-- メールアドレスからユーザー情報を取得します -->
+  <select id="identifyUser" parameterType="java.lang.String" resultMap="userDetails">
+    <![CDATA[
+      SELECT
+        users.id,
+        users.email,
+        users.avf,
+        users.name,
+        users.password,
+        users.locked,
+        users.expired,
+        user_roles.role,
+        codemst.code_nm
+      FROM
+        users
+      INNER JOIN
+        (
+          SELECT
+            users.id,
+            @RN := @RN + 1 AS RN
+          FROM
+            users,
+            (SELECT @RN := 0) RC
+          WHERE
+            users.email = #{email}
+            AND users.avf <= CURDATE()
+          ORDER BY
+            avf DESC
+        ) RC
+      ON
+        users.id = RC.id
+      INNER JOIN
+        user_roles
+      ON
+        user_roles.user_id = users.id
+      INNER JOIN
+        codemst
+      ON
+        codemst.code_id = 1
+        AND
+        codemst.code = user_roles.role
+      WHERE
+        users.email = #{email}
+        AND
+        RC.RN = 1
+    ]]>
+  </select>
