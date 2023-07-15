@@ -22,7 +22,7 @@ repositories {
 }
 
 bootRun {
-  sourceResources sourceSets.main
+	sourceResources sourceSets.main
 }
 
 dependencies {
@@ -39,7 +39,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.3.1'
 	testImplementation 'org.springframework.security:spring-security-test'
-  implementation 'org.springframework.boot:spring-boot-starter-aop:2.7.12'
+	implementation 'org.springframework.boot:spring-boot-starter-aop:2.7.12'
 }
 
 tasks.named('test') {

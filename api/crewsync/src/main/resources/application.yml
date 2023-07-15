@@ -21,3 +21,4 @@ mybatis:
   mapper-locations: classpath:/com/example/crewsync/domains/mappers/*.xml
   configuration:
     map-underscore-to-camel-case: true
+debug: true
