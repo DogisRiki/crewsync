@@ -23,7 +23,8 @@
       // ====================================
       "extensions": [
         "vscjava.vscode-java-pack",
-        "vmware.vscode-spring-boot",
+        "vscjava.vscode-gradle",
+        "naco-siren.gradle-language",
         "vscjava.vscode-spring-initializr",
         "vscjava.vscode-lombok",
         "esbenp.prettier-vscode",
@@ -69,6 +70,8 @@
         "java.compile.nullAnalysis.mode": "automatic",
         // 【Java】ファイルの変更検知
         "boot-java.change-detection.on": false,
+        // build.gradleの変更を検知して自動ビルドする
+        "java.configuration.updateBuildConfiguration": "automatic",
         // 【JavaScript】自動インポートを有効にする
         "javascript.suggest.autoImports": true,
         // 【JavaScript】インポートパスの自動更新を有効にする

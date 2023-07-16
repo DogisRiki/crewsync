@@ -42,3 +42,9 @@ out/
 ### LOG ###
 *.log
 */logs/
+
+### TEMP ###
+*.temp
+*.tmp
+*temp*
+*tmp*

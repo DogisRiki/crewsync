@@ -28,11 +28,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.formLogin(login -> login
-                .loginPage("/login").permitAll())
+                .loginProcessingUrl("/login")
+                .loginPage("/login")
+                .defaultSuccessUrl("/")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .permitAll())
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/login")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID"))
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .mvcMatchers("/img/**").permitAll()
-                        .antMatchers("/").permitAll()
+                        .requestMatchers("/img/**").permitAll()
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/register").permitAll()
                         .anyRequest().authenticated());
         return http.build();
     }
