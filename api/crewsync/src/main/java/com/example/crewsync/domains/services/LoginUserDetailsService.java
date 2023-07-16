@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.example.crewsync.auth.LoginUser;
+import com.example.crewsync.auth.LoginUserDetails;
 import com.example.crewsync.domains.mappers.LoginUserMapper;
 
 /**
@@ -23,6 +25,7 @@ public class LoginUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return loginUserMapper.identifyUser(username);
+        LoginUser loginUser = loginUserMapper.identifyUser(username);
+        return new LoginUserDetails(loginUser);
     }
 }

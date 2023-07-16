@@ -15,7 +15,7 @@
   <body>
     <div class="container">
       <div class="row justify-content-center">
-        <form method="post" class="col-lg-4 col-md-8 col-sm-8 col-xs-8" th:action="@{/login}">
+        <form method="post" class="col-lg-4 col-md-8 col-sm-8 col-xs-8" action="index.html" th:action="@{/login}">
           <img src="../static/img/logo.png" th:src="@{/img/logo.png}" class="mx-auto d-block my-5" alt="logo.png" />
           <div class="card">
             <div class="card-body">
@@ -31,8 +31,8 @@
               </div>
               <hr />
               <div class="d-flex flex-column">
-                <a href="#" type="submit" class="btn btn-primary btn-block mb-3">サインイン</a>
-                <a th:href="@{/register}" type="submit" class="btn btn-success btn-block">ユーザー登録</a>
+                <button type="submit" class="btn btn-primary btn-block mb-3">サインイン</button>
+                <a th:href="@{/register}" class="btn btn-success btn-block">ユーザー登録</a>
               </div>
             </div>
           </div>

@@ -5,13 +5,13 @@ import java.util.Date;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /*
  * ユーザー情報を保持するモデルクラスです
  */
-@Getter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginUser implements Serializable {
