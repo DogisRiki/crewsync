@@ -44,7 +44,5 @@ out/
 */logs/
 
 ### TEMP ###
-*.temp
-*.tmp
-*temp*
-*tmp*
+/temp/
+/tmp/
