@@ -16,4 +16,9 @@ public class RootController {
     public String login() {
         return "login";
     }
+
+    @GetMapping("/register")
+    public String signup() {
+        return "signup";
+    }
 }
