@@ -15,7 +15,7 @@
   <body>
     <div class="container">
       <div class="row justify-content-center">
-        <form method="post" class="col-lg-4 col-md-8 col-sm-8 col-xs-8" action="index.html" th:action="@{/login}">
+        <form method="post" class="col-lg-4 col-md-8 col-sm-8 col-xs-8" th:action="@{/login-do}">
           <img src="../static/img/logo.png" th:src="@{/img/logo.png}" class="mx-auto d-block my-5" alt="logo.png" />
           <div class="card">
             <div class="card-body">
@@ -29,6 +29,9 @@
                 <label for="password" class="form-label">パスワード</label>
                 <input type="password" class="form-control" id="password" name="password" required />
               </div>
+              <div class="my-1" th:if="${loginError}">
+                <span class="text-danger" th:text="${loginError.message}"></span>
+              </div>
               <hr />
               <div class="d-flex flex-column">
                 <button type="submit" class="btn btn-primary btn-block mb-3">サインイン</button>
@@ -36,6 +39,7 @@
               </div>
             </div>
           </div>
+          <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
         </form>
       </div>
     </div>

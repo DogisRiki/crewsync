@@ -15,6 +15,7 @@ spring:
 logging:
   level:
     root: INFO
+    org.springframework.security: DEBUG
   file:
     name: crewsync/logs/app.log
 mybatis:

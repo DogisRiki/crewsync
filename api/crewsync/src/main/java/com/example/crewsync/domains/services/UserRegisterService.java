@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.crewsync.auth.LoginUser;
 import com.example.crewsync.domains.mappers.LoginUserMapper;
+import com.example.crewsync.security.LoginUser;
 
 /**
  * ユーザー登録サービスクラスです

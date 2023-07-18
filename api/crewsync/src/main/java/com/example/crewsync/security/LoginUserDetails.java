@@ -1,4 +1,4 @@
-package com.example.crewsync.auth;
+package com.example.crewsync.security;
 
 import java.util.Collection;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package com.example.crewsync.conf;
+package com.example.crewsync.security;
 
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -28,9 +28,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.formLogin(login -> login
-                .loginProcessingUrl("/login")
                 .loginPage("/login")
+                .loginProcessingUrl("/login-do")
                 .defaultSuccessUrl("/")
+                .failureHandler(new LoginAuthenticationFailureHandler("/login-error"))
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .permitAll())
@@ -42,6 +43,7 @@ public class SecurityConfig {
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/img/**").permitAll()
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/login-error").permitAll()
                         .requestMatchers("/register").permitAll()
                         .anyRequest().authenticated());
         return http.build();

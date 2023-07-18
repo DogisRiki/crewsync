@@ -2,7 +2,7 @@ package com.example.crewsync.domains.mappers;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.crewsync.auth.LoginUser;
+import com.example.crewsync.security.LoginUser;
 
 @Mapper
 public interface LoginUserMapper {
