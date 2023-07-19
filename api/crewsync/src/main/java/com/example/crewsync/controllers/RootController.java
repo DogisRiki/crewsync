@@ -37,19 +37,13 @@ public class RootController {
     }
 
     @GetMapping("/login")
-    public String successLogin() {
-        return "login";
-    }
-
-    @PostMapping("/login-error")
-    public String failureLogin(HttpSession session, Model model) {
+    public String login(HttpSession session, Model model) {
         // 例外オブジェクトを取得
         AuthenticationException ex = (AuthenticationException) session
                 .getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
         if (ex != null) {
-            log.error("ログインエラー発生 : {}", ex.getMessage());
+            log.error("ログインエラー発生 : {}", ex);
             model.addAttribute("loginError", ex);
-            // セッションを破棄
             session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
         }
         return "login";

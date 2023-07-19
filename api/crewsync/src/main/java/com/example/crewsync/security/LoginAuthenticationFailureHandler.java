@@ -3,6 +3,7 @@ package com.example.crewsync.security;
 import java.io.IOException;
 
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
@@ -17,11 +18,11 @@ import jakarta.servlet.http.HttpSession;
  */
 public class LoginAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
-    // フォワード先URL
-    private final String forwardUrl;
+    // リダイレクト先URL
+    private final String redirectUrl;
 
-    public LoginAuthenticationFailureHandler(String forwardUrl) {
-        this.forwardUrl = forwardUrl;
+    public LoginAuthenticationFailureHandler(String redirectUrl) {
+        this.redirectUrl = redirectUrl;
     }
 
     /**
@@ -37,9 +38,12 @@ public class LoginAuthenticationFailureHandler implements AuthenticationFailureH
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException exception)
             throws IOException, ServletException {
-        HttpSession session = request.getSession();
-        session.setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, exception);
-        request.getRequestDispatcher(forwardUrl).forward(request, response);
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, exception);
+        }
+        DefaultRedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+        redirectStrategy.sendRedirect(request, response, this.redirectUrl);
     }
 
 }

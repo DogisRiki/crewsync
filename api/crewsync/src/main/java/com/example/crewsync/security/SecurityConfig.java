@@ -29,9 +29,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.formLogin(login -> login
                 .loginPage("/login")
-                .loginProcessingUrl("/login-do")
+                .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/")
-                .failureHandler(new LoginAuthenticationFailureHandler("/login-error"))
+                .failureHandler(new LoginAuthenticationFailureHandler("/login"))
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .permitAll())
