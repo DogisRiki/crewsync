@@ -1,16 +1,14 @@
 package com.example.crewsync.common.config;
 
+import java.util.Locale;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-
-import java.util.Locale;
 
 /**
  * アプリケーション全体の設定クラスです。
@@ -43,29 +41,5 @@ public class AppConfig implements WebMvcConfigurer {
         messageSource.setBasename("classpath:messages"); // messages.propertiesとmessages_ja.propertiesを読み込む
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
-    }
-
-    /**
-     * ロケール情報の変更を検知するインターセプタのBeanを生成します
-     * リクエストパラメータ'lang'の変更を検知します
-     *
-     * @return ロケール情報の変更を検知するインターセプタ
-     */
-    @Bean
-    public LocaleChangeInterceptor localeChangeInterceptor() {
-        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
-        localeChangeInterceptor.setParamName("lang");
-        return localeChangeInterceptor;
-    }
-
-    /**
-     * インターセプタを登録します
-     * 生成したロケール情報の変更を検知するインターセプタを登録します
-     *
-     * @param registry インターセプタを管理するレジストリ
-     */
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(localeChangeInterceptor());
     }
 }

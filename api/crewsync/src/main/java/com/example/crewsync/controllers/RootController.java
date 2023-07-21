@@ -1,7 +1,6 @@
 package com.example.crewsync.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
@@ -38,12 +37,10 @@ public class RootController {
 
     @GetMapping("/login")
     public String login(HttpSession session, Model model) {
-        // 例外オブジェクトを取得
-        AuthenticationException ex = (AuthenticationException) session
-                .getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-        if (ex != null) {
-            log.error("ログインエラー発生 : {}", ex);
-            model.addAttribute("loginError", ex);
+        String errorMessage = (String) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+        if (errorMessage != null) {
+            log.error("ログインエラー発生 : {}", errorMessage);
+            model.addAttribute("loginError", errorMessage);
             session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
         }
         return "login";

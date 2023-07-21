@@ -2,10 +2,13 @@ package com.example.crewsync.security;
 
 import java.io.IOException;
 
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+
+import com.example.crewsync.common.utils.constraints.ErrorMessageKeys;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,16 +16,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 /**
- * ログイン失敗時のカスタム認証失敗ハンドラーです
+ * ログイン失敗時のカスタム認証ハンドラーです
  *
  */
 public class LoginAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
-    // リダイレクト先URL
     private final String redirectUrl;
 
-    public LoginAuthenticationFailureHandler(String redirectUrl) {
+    private final MessageSource messageSource;
+
+    public LoginAuthenticationFailureHandler(String redirectUrl, MessageSource messageSource) {
         this.redirectUrl = redirectUrl;
+        this.messageSource = messageSource;
     }
 
     /**
@@ -38,12 +43,35 @@ public class LoginAuthenticationFailureHandler implements AuthenticationFailureH
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException exception)
             throws IOException, ServletException {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, exception);
+
+        String errorMessageKey;
+
+        switch (exception.getClass().getSimpleName()) {
+            case "BadCredentialsException":
+                errorMessageKey = ErrorMessageKeys.BAD_CREDENTIALS;
+                break;
+            case "DisabledException":
+                errorMessageKey = ErrorMessageKeys.DISABLED;
+                break;
+            case "AccountExpiredException":
+                errorMessageKey = ErrorMessageKeys.EXPIRED;
+                break;
+            case "LockedException":
+                errorMessageKey = ErrorMessageKeys.LOCKED;
+                break;
+            default:
+                errorMessageKey = ErrorMessageKeys.UNKNOWN;
+                break;
         }
+
+        String errorMessage = messageSource.getMessage(errorMessageKey, null, request.getLocale());
+        HttpSession session = request.getSession(false);
+
+        if (session != null) {
+            session.setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, errorMessage);
+        }
+
         DefaultRedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
         redirectStrategy.sendRedirect(request, response, this.redirectUrl);
     }
-
 }

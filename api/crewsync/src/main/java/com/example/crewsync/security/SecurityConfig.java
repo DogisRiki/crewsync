@@ -1,6 +1,8 @@
 package com.example.crewsync.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -18,6 +20,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    @Autowired
+    private MessageSource messageSource;
+
     /**
      * SecurityFilterChainをDIコンテナに登録します
      *
@@ -31,7 +36,7 @@ public class SecurityConfig {
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/")
-                .failureHandler(new LoginAuthenticationFailureHandler("/login"))
+                .failureHandler(new LoginAuthenticationFailureHandler("/login", messageSource))
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .permitAll())
