@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,5 +7,8 @@
   </head>
   <body>
     this is index
+    <form sec:authorize="authenticated" method="post" action="index.html" th:action="@{/logout}">
+      <button type="submit">ログアウト</button>
+    </form>
   </body>
 </html>
