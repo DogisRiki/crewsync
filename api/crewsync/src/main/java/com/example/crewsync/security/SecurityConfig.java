@@ -47,9 +47,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/img/**").permitAll()
+                        .requestMatchers("/js/**").permitAll()
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("/login-error").permitAll()
-                        .requestMatchers("/register").permitAll()
                         .anyRequest().authenticated());
         return http.build();
     }

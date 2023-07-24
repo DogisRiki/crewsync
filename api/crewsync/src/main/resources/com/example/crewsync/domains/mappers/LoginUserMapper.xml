@@ -63,24 +63,4 @@
         RC.RN = 1
     ]]>
   </select>
-
-  <!-- ユーザー情報を登録します -->
-  <insert id="registerUser" parameterType="com.example.crewsync.security.LoginUser" useGeneratedKeys="true" keyProperty="id">
-    <![CDATA[
-      INSERT INTO
-        users (email, avf, name, password, locked, expired)
-      VALUES
-        (#{email}, CURDATE(), #{username}, #{password}, false, false)
-    ]]>
-  </insert>
-
-  <!-- ユーザー権限を登録します -->
-  <insert id="registerUserRole" parameterType="com.example.crewsync.security.LoginUser">
-    <![CDATA[
-      INSERT INTO
-        user_roles (user_id, role, delflg)
-      VALUES
-        (#{id}, '01', '0')
-    ]]>
-  </insert>
 </mapper>
