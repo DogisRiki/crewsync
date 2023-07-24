@@ -8,7 +8,7 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
-import com.example.crewsync.common.utils.constraints.ErrorMessageKeys;
+import com.example.crewsync.common.utils.constants.ErrorMessageKeys;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -14,21 +14,4 @@ public interface LoginUserMapper {
      * @return ユーザー情報
      */
     public LoginUser identifyUser(String email);
-
-    /**
-     * ユーザー情報を登録します
-     *
-     * @param user ユーザー情報
-     * @return 登録件数
-     */
-    public int registerUser(LoginUser user);
-
-    /**
-     * ユーザー権限を登録します
-     *
-     * @param user ユーザー情報
-     * @return 登録件数
-     */
-    public int registerUserRole(LoginUser user);
-
 }

@@ -8,14 +8,15 @@ spring:
   thymeleaf:
     cache: false
     prefix: file:crewsync/src/main/resources/templates/
-  # shema.sqlとdata.sqlをspring起動時に毎時実行したい場合はmode: alwaysにする
+  # shema.sqlとdata.sqlをspring起動時に毎時実行したい場合はmode: alwaysに変更する
   sql:
     init:
       mode: never
 logging:
   level:
     root: INFO
-    org.springframework.security: DEBUG
+    # Spring Securityのログを出力したい場合: DEBUGに変更する
+    org.springframework.security: OFF
   file:
     name: crewsync/logs/app.log
 mybatis:
