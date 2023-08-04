@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.crewsync.common.utils.constants.RouteConstants;
+import com.example.crewsync.security.LoginUser;
 import com.example.crewsync.security.LoginUserDetails;
 
 import jakarta.servlet.http.HttpSession;
@@ -24,10 +25,10 @@ public class LoginController {
      * @return 遷移先
      */
     @GetMapping("/")
-    public String initTop(@AuthenticationPrincipal LoginUserDetails user, Model model) {
-        log.info("ログインユーザー : {}", user.getUsername());
-        log.info("権限 : {}", user.getAuthorities());
-        model.addAttribute("authenticatedUser", user);
+    public String initTop(@AuthenticationPrincipal LoginUserDetails userDetails, Model model) {
+        LoginUser user = userDetails.getLoginUser();
+        log.info("ログインユーザー: {}", user.getUsername());
+        model.addAttribute("loginUser", user);
         return RouteConstants.TOP;
     }
 

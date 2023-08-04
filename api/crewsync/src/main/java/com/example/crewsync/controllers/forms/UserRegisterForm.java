@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 /**
- * ユーザー情報登録フォームです
+ * ユーザー情報登録入力フォームです
  */
 @Data
 public class UserRegisterForm implements Serializable {
@@ -16,7 +16,7 @@ public class UserRegisterForm implements Serializable {
     private static final long serialVersionUID = -4292831594774687625L;
 
     @Size(max = 128, message = "{userRegisterForm.email.Size}")
-    @Pattern(regexp="^[\\w]+@crewsync\\.jp$", message = "{userRegisterForm.email.Pattern}")
+    @Pattern(regexp = "^[\\w]+@crewsync\\.jp$", message = "{userRegisterForm.email.Pattern}")
     private String email;
 
     @Size(max = 128)

@@ -8,10 +8,16 @@
     <result property="id" column="id" />
     <result property="email" column="email" />
     <result property="avf" column="avf" />
-    <result property="username" column="username" />
+    <result property="username" column="name" />
     <result property="password" column="password" />
     <result property="locked" column="locked" />
     <result property="expired" column="expired" />
+    <result property="empNo" column="emp_no" />
+    <result property="deptName" column="dept_nm" />
+    <result property="posName" column="pos_nm" />
+    <association property="imageFile" javaType="com.example.crewsync.domains.models.ImageFile">
+      <result property="fileName" column="profile_img" />
+    </association>
     <collection property="roles" ofType="java.lang.String">
       <result column="code_nm" />
     </collection>
@@ -28,7 +34,11 @@
         users.locked,
         users.expired,
         user_roles.role,
-        codemst.code_nm
+        codemst.code_nm,
+        users.emp_no,
+        users.profile_img,
+        dp.dept_nm,
+        pos.pos_nm
       FROM
         users
       INNER JOIN
@@ -41,7 +51,8 @@
             (SELECT @RN := 0) RC
           WHERE
             users.email = #{email}
-            AND users.avf <= CURDATE()
+            AND
+            users.avf <= CURDATE()
           ORDER BY
             avf DESC
         ) RC
@@ -57,6 +68,40 @@
         codemst.code_id = 1
         AND
         codemst.code = user_roles.role
+      INNER JOIN
+        depts dp
+      ON
+        dp.dept_cd = users.dept_cd
+        AND
+        NOT EXISTS (
+          SELECT
+            1
+          FROM
+            depts
+          WHERE
+            depts.dept_cd = dp.dept_cd
+            AND
+            depts.avf <= CURDATE()
+            AND
+            depts.avf > dp.avf
+        )
+      INNER JOIN
+        positions pos
+      ON
+        pos.pos_cd = users.pos_cd
+        AND
+        NOT EXISTS (
+          SELECT
+            1
+          FROM
+            positions
+          WHERE
+            positions.pos_cd = pos.pos_cd
+            AND
+            positions.avf <= CURDATE()
+            AND
+            positions.avf > pos.avf
+        )
       WHERE
         users.email = #{email}
         AND

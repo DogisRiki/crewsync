@@ -13,14 +13,14 @@ import com.example.crewsync.security.LoginUser;
 import com.example.crewsync.security.LoginUserDetails;
 
 /**
- * UserDetailsServiceを実装します
+ * UserDetailsServiceを実装したサービスクラスです
  */
 @Service
 public class LoginUserDetailsService implements UserDetailsService {
 
-    @Autowired
     private final LoginUserMapper loginUserMapper;
 
+    @Autowired
     public LoginUserDetailsService(LoginUserMapper loginUserMapper) {
         this.loginUserMapper = loginUserMapper;
     }
