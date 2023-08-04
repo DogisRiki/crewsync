@@ -34,6 +34,10 @@
         // ====================================
         // 共通設定
         // ====================================
+        // .settingsフォルダを表示させる(WARNINGを表示させてSerialVersionUIDの自動生成機能を使用可能にするため)
+        "files.exclude": {
+          "**/.settings": false
+        },
         // Java以外のインデントサイズを2にする
         "editor.tabSize": 2,
         // インデントの自動検出を無効にする
@@ -66,23 +70,28 @@
         // ====================================
         // 言語別個別設定
         // ====================================
-        // 【Java】null解析を自動で行う
+        //【Java】
+        // null解析を自動で行う
         "java.compile.nullAnalysis.mode": "automatic",
-        // 【Java】ファイルの変更検知
+        // ファイルの変更検知
         "boot-java.change-detection.on": false,
         // build.gradleの変更を検知して自動ビルドする
         "java.configuration.updateBuildConfiguration": "automatic",
-        // 【JavaScript】自動インポートを有効にする
+        //【JavaScript】
+        // 自動インポートを有効にする
         "javascript.suggest.autoImports": true,
-        // 【JavaScript】インポートパスの自動更新を有効にする
+        // インポートパスの自動更新を有効にする
         "javascript.updateImportsOnFileMove.enabled": "always",
-        // 【CSS】デフォルトのLint機能を有効にする
+        //【CSS】
+        // デフォルトのLint機能を無効にする
         "scss.validate": false,
         "css.validate": false,
-        // 【HTML】DOCTYPE宣言書き換え
+        //【HTML】
+        // DOCTYPE宣言書き換え
         "emmet.variables": {
           "lang": "ja" // => <html lang="ja">
         },
+        //【JSON】
         // この2つの設定しておかないとJSONの警告が消えない
         "json.schemaDownload.enable": true,
         "json.validate.enable": false,

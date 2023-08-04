@@ -4,6 +4,9 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.example.crewsync.security.LoginUser;
 
+/**
+ * ログイン画面のマッパーインターフェースです
+ */
 @Mapper
 public interface LoginUserMapper {
 

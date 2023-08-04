@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+  "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.crewsync.domains.mappers.ProfileEditMapper">
+  <!-- プロフィール編集フォームを生成します  -->
+  <select id="createProfileEditForm" parameterType="java.lang.Long" resultType="com.example.crewsync.controllers.forms.ProfileEditForm">
+    <![CDATA[
+      SELECT
+        zipcode AS zipcode,
+        pref AS pref,
+        city AS city,
+        bldg AS bldg,
+        telno AS phoneNo,
+        mobile_no AS mobilePhoneNo,
+        user_id AS id
+      FROM
+        personal_info
+      WHERE
+        user_id = #{userId}
+    ]]>
+  </select>
+  <!-- ユーザーのプロフィールを更新します -->
+  <update id="updateProfile" parameterType="com.example.crewsync.security.LoginUser">
+    <![CDATA[
+      UPDATE
+        users
+      SET
+        password = #{password},
+        profile_img = #{imageFile.fileName}
+      WHERE
+        id = #{id}
+    ]]>
+  </update>
+  <!-- ユーザーの個人情報を更新します -->
+  <update id="updatePersonalInfo" parameterType="com.example.crewsync.controllers.forms.ProfileEditForm">
+    <![CDATA[
+      UPDATE
+        personal_info
+      SET
+        zipcode = #{zipcode},
+        pref = #{pref},
+        city = #{city},
+        bldg = #{bldg},
+        telno = #{phoneNo},
+        mobile_no = #{mobilePhoneNo}
+      WHERE
+        user_id = #{id}
+    ]]>
+  </update>
+</mapper>

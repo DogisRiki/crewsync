@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class LoginUserDetails implements UserDetails {
 
+    private static final long serialVersionUID = 1L;
+
     // ログインユーザーインスタンス
     private final LoginUser loginUser;
 
@@ -29,6 +31,15 @@ public class LoginUserDetails implements UserDetails {
                 .stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * ログイン中のユーザー情報を返します
+     *
+     * @return ユーザー情報
+     */
+    public LoginUser getLoginUser() {
+        return this.loginUser;
     }
 
     /**
