@@ -46,7 +46,7 @@
         telno = #{phoneNo},
         mobile_no = #{mobilePhoneNo}
       WHERE
-        user_id = #{id}
+        user_id = #{userId}
     ]]>
   </update>
   <!-- ユーザーのプロフィール画像を取得します-->
