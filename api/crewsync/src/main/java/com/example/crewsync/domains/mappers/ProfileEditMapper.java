@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.crewsync.controllers.forms.ProfileEditForm;
+import com.example.crewsync.domains.models.ImageFile;
 import com.example.crewsync.security.LoginUser;
 
 /**
@@ -27,4 +28,9 @@ public interface ProfileEditMapper {
      * ユーザーの個人情報を更新します
      */
     public int updatePersonalInfo(ProfileEditForm profileEditForm);
+
+    /**
+     * ユーザーIDからプロフィール画像を取得します
+     */
+    public ImageFile getImageFileById(long id);
 }

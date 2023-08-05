@@ -46,7 +46,18 @@
         telno = #{phoneNo},
         mobile_no = #{mobilePhoneNo}
       WHERE
-        user_id = #{id}
+        user_id = #{userId}
     ]]>
   </update>
+  <!-- ユーザーのプロフィール画像を取得します-->
+  <select id="getImageFileById" parameterType="java.lang.Long" resultType="com.example.crewsync.domains.models.ImageFile">
+    <![CDATA[
+      SELECT
+        profile_img AS fileName
+      FROM
+        users
+      WHERE
+        id = #{userId}
+    ]]>
+  </select>
 </mapper>

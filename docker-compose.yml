@@ -25,6 +25,7 @@ services:
     tty: true
     volumes:
       - ./api:/workspace
+      - ./api/img:/img
     depends_on:
       - db
 volumes:

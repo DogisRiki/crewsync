@@ -1,7 +1,8 @@
 package com.example.crewsync.domains.services;
 
 import java.io.File;
-import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class ProfileEditService {
     private LoginUser user;
 
     // 仮のプロフィール画像保存先
-    public static final String PROFILE_IMG_DEST = "C:\\img\\00_profile\\";
+    public static final String PROFILE_IMG_DEST = "/img/00_profile/";
 
     @Autowired
     public ProfileEditService(ProfileEditMapper profileEditMapper, PasswordEncoder passwordEncoder) {
@@ -46,71 +47,95 @@ public class ProfileEditService {
     }
 
     /**
-     * ユーザーのプロフィールを更新します。
-     * プロフィール画像のアップロード、パスワードの更新、プロフィールおよび個人情報の更新を行います。
-     * 更新処理が全て成功しなければ例外をスローします。
+     * ユーザー情報と個人情報を更新します
      *
      * @param form 個人情報フォーム
-     * @throws IllegalStateException 更新件数が2でない（プロフィールと個人情報の更新が全てできなかった）場合
-     * @throws IOException           プロフィール画像の書き込みに失敗した場合
+     * @throws Exception トランザクションエラーやIOエラーなど
      */
     @Transactional(rollbackFor = Throwable.class)
-    public void editProfile(ProfileEditForm form) throws IllegalStateException, IOException {
+    public void editProfile(ProfileEditForm form) throws Exception {
 
+        // アップロードされた画像ファイル
         MultipartFile uploadImgFile = form.getUploadFile();
+        // 本番用プロフィール画像保存先
+        String absolutePath = PROFILE_IMG_DEST + user.getEmpNo() + File.separator;
+        // 一時用プロフィール画像保存先
+        String tmpPath = absolutePath + "tmp" + File.separator;
+        // ファイルオブジェクトを保持
+        File dest = null;
 
-        if (!uploadImgFile.isEmpty()) {
-            // 画像のアップロード、削除、保存を行う
-            handleProfileImage(uploadImgFile);
-        }
+        try {
+            // 既存の画像を一時ディレクトリへ移動
+            File directory = new File(absolutePath);
+            File tmpDirectory = new File(tmpPath);
+            if (!tmpDirectory.exists()) {
+                tmpDirectory.mkdirs();
+            }
+            if (directory.exists()) {
+                for (File target : directory.listFiles()) {
+                    if (target.isFile()) {
+                        File tmpDest = new File(tmpPath + target.getName());
+                        Files.move(target.toPath(), tmpDest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    }
+                }
+            }
 
-        int count = 0;
-        if (form.getPassword() != null && !form.getPassword().equals("")) {
-            user.setPassword(passwordEncoder.encode(form.getPassword()));
-        }
-        count += profileEditMapper.updateProfile(user);
-        form.setUserId(user.getId());
-        count += profileEditMapper.updatePersonalInfo(form);
+            // アップロードされた画像を本番用ディレクトリへ保存
+            if (!uploadImgFile.isEmpty()) {
+                dest = new File(absolutePath + uploadImgFile.getOriginalFilename());
+                uploadImgFile.transferTo(dest);
 
-        // プロフィールの更新と個人情報の更新が2つとも成功でなければ例外をスローする
-        if (count != 2) {
-            throw new IllegalStateException();
+                // ユーザーオブジェクトが持つ画像情報を更新
+                ImageFile imageFile = new ImageFile();
+                imageFile.setFileName(absolutePath + uploadImgFile.getOriginalFilename());
+                user.setImageFile(imageFile);
+            }
+
+            // DB更新件数
+            int updateCount = 0;
+
+            // ユーザ―情報更新
+            if (form.getPassword() != null) {
+                user.setPassword(passwordEncoder.encode(form.getPassword()));
+            }
+            updateCount += profileEditMapper.updateProfile(user);
+
+            // 個人情報更新
+            form.setUserId(user.getId());
+            updateCount += profileEditMapper.updatePersonalInfo(form);
+
+            // ユーザー情報更新と個人情報更新の2つが成功しなければ例外をスローする
+            if (updateCount != 2) {
+                throw new Exception();
+            }
+
+            // 一時ディレクトリの内容を全削除
+            for (File target : tmpDirectory.listFiles()) {
+                target.delete();
+            }
+
+        } catch (Exception e) {
+            // 新しい画像を削除し、一時ディレクトリから本番用ディレクトリへ既存の画像を戻す
+            if (dest != null) {
+                dest.delete();
+            }
+            for (File target : new File(tmpPath).listFiles()) {
+                File originalDest = new File(absolutePath + target.getName());
+                Files.move(target.toPath(), originalDest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
+            // 例外を再スローしてトランザクションをロールバック
+            throw e;
         }
     }
 
     /**
-     * プロフィール画像のアップロードを行います。
-     * 既存の画像が存在する場合は削除し、新たな画像を保存します。
-     * 保存した画像のパスはユーザーオブジェクトにセットされます。
-     *
-     * @param uploadImgFile アップロードする画像ファイル
-     * @throws IllegalStateException ディレクトリの作成や画像の削除に失敗した場合
-     * @throws IOException           画像ファイルの書き込みに失敗した場合
+     * プロフィール画像を取得します
+     * 
+     * @param id ユーザーID
+     * @return プロフィール画像オブジェクト
      */
-    private void handleProfileImage(MultipartFile uploadImgFile) throws IllegalStateException, IOException {
-
-        String imgPath = PROFILE_IMG_DEST + user.getEmpNo() + File.separator;
-        File directory = new File(imgPath);
-
-        // すでに保存されている画像があればディレクトリから削除する
-        if (directory.exists()) {
-            for (File target : directory.listFiles()) {
-                target.delete();
-            }
-        } else {
-            // ディレクトリがなければディレクトリを作成する
-            directory.mkdirs();
-        }
-
-        // プロフィール画像保存先
-        File dest = new File(imgPath + uploadImgFile.getOriginalFilename());
-        // プロフィール画像をディレクトリへ書き込む
-        uploadImgFile.transferTo(dest);
-
-        // ユーザーオブジェクトへ更新後のプロフィール画像をセットする
-        ImageFile imageFile = new ImageFile();
-        imageFile.setFileName(dest.getAbsolutePath());
-        user.setImageFile(imageFile);
+    public ImageFile getProfileImg(long id) {
+        return profileEditMapper.getImageFileById(id);
     }
 
 }
