@@ -213,7 +213,7 @@
       id="toast"
       class="position-absolute bg-white shadow-lg top-50 start-50 border px-2 translate-middle"
       style="width: 360px"
-      th:if="${notice}"
+      th:if="${success}"
     >
       <div class="py-2 d-flex border-bottom align-items-center">
         <div class="bg-primary me-2" style="width: 1rem; height: 1rem"></div>
@@ -221,7 +221,22 @@
         <button id="toast-close" type="button" class="btn-close"></button>
       </div>
       <div class="py-2">
-        <span th:text="${notice}"></span>
+        <span th:text="${success}"></span>
+      </div>
+    </div>
+    <div
+      id="toast"
+      class="position-absolute bg-white shadow-lg top-50 start-50 border px-2 translate-middle"
+      style="width: 360px"
+      th:if="${failure}"
+    >
+      <div class="py-2 d-flex border-bottom align-items-center">
+        <div class="bg-danger me-2" style="width: 1rem; height: 1rem"></div>
+        <strong class="flex-grow-1">Information</strong>
+        <button id="toast-close" type="button" class="btn-close"></button>
+      </div>
+      <div class="py-2">
+        <span th:text="${failure}"></span>
       </div>
     </div>
     <!-- Scripts -->

@@ -46,3 +46,6 @@ out/
 ### TEMP ###
 /temp/
 /tmp/
+
+### Profile Image Directory ###
+img/

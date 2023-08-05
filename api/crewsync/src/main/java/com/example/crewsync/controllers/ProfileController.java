@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.crewsync.common.utils.constants.RouteConstants;
 import com.example.crewsync.controllers.forms.ProfileEditForm;
+import com.example.crewsync.domains.models.ImageFile;
 import com.example.crewsync.domains.services.ProfileEditService;
 import com.example.crewsync.security.LoginUser;
 import com.example.crewsync.security.LoginUserDetails;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 public class ProfileController {
 
@@ -62,10 +65,15 @@ public class ProfileController {
         }
         try {
             profileEditService.editProfile(profileEditForm);
+            model.addAttribute("success", "処理が正常に完了しました");
         } catch (Exception e) {
-            // 後々実装するかも
+            log.error("プロフィールの更新に失敗しました: {}", e.getMessage());
+            // サムネイルの再表示のため再度プロフィール画像をセットする
+            ImageFile imageFile = profileEditService.getProfileImg(user.getId());
+            user.setImageFile(imageFile);
+            model.addAttribute("loginUser", user);
+            model.addAttribute("failure", "処理に失敗しました。再度実行してください");
         }
-        model.addAttribute("notice", "処理が正常に完了しました");
         return RouteConstants.PROFILE;
     }
 }
