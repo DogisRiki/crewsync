@@ -6,6 +6,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 /**
@@ -19,31 +20,30 @@ public class ProfileEditForm implements Serializable {
 
     private MultipartFile uploadFile;
 
-    @Size(min = 8, max = 20)
+    @Size(min = 8, max = 20, message = "{ProfileEditForm.password.Size}")
     private String password;
 
-    @Size(min = 8, max = 20)
     private String passwordConfirmed;
 
-    @Size(min = 7, max = 7)
+    @Pattern(regexp = "^\\d{7}$", message = "{ProfileEditForm.zipcode.Pattern}")
     private String zipcode;
 
-    @Size(max = 8)
+    @Size(max = 8, message = "{ProfileEditForm.pref.Size}")
     private String pref;
 
-    @Size(max = 64)
+    @Size(max = 64, message = "{ProfileEditForm.city.Size}")
     private String city;
 
-    @Size(max = 64)
+    @Size(max = 64, message = "{ProfileEditForm.bldg.Size}")
     private String bldg;
 
-    @Size(max = 32)
+    @Pattern(regexp = "^0\\d{9,10}$", message = "{ProfileEditForm.phoneNo}")
     private String phoneNo;
 
-    @Size(max = 32)
+    @Pattern(regexp = "^0[789]0\\d{8}$", message = "{ProfileEditForm.mobilePhoneNo}")
     private String mobilePhoneNo;
 
-    @AssertTrue
+    @AssertTrue(message = "{AssertTrue.ProfileEditForm.passwordConfirmed}")
     public boolean isPasswordConfirmed() {
         return ObjectUtils.nullSafeEquals(password, passwordConfirmed);
     }
