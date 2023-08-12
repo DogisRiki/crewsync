@@ -1,8 +1,8 @@
 name: Spring CI with Gradle
 
-on:
-  push:
-    branches: ["main"]
+# on:
+#   push:
+#     branches: ["main"]
 
 jobs:
   build-and-test:
@@ -39,4 +39,5 @@ jobs:
         run: chmod +x ./api/crewsync/gradlew
 
       - name: Run tests
-        run: docker-compose run api ./crewsync/gradlew test
+        run: |
+          docker-compose run api bash -c "cd ./crewsync && ./gradlew test"
