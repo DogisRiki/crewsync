@@ -36,7 +36,7 @@ jobs:
           docker-compose build api
 
       - name: Set executable permission for gradlew
-        run: chmod +x ./crewsync/gradlew
+        run: chmod +x ./api/crewsync/gradlew
 
       - name: Run tests
-        run: docker-compose run api ./crewsync/gradlew test
+        run: docker-compose run api ./api/crewsync/gradlew test
