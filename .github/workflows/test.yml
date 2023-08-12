@@ -1,8 +1,8 @@
 name: Spring CI with Gradle
 
-# on:
-#   push:
-#     branches: ["main"]
+on:
+  push:
+    branches: ["main"]
 
 jobs:
   build-and-test:
@@ -33,11 +33,11 @@ jobs:
           echo "SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}" >> ./api/db-access.env
           echo "SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}" >> ./api/db-access.env
           docker-compose up -d db
-          docker-compose build api
+          docker-compose build test
 
       - name: Set executable permission for gradlew
         run: chmod +x ./api/crewsync/gradlew
 
       - name: Run tests
         run: |
-          docker-compose run api bash -c "cd ./crewsync && ./gradlew test"
+          docker-compose run test bash -c "cd ./crewsync && ./gradlew test"

@@ -28,5 +28,20 @@ services:
       - ./api/img:/img
     depends_on:
       - db
+  test:
+    container_name: test
+    build:
+      context: ./api/
+      dockerfile: Test.Dockerfile
+    ports:
+      - 18080:8080
+    env_file:
+      - ./api/db-access.env
+    tty: true
+    volumes:
+      - ./api:/workspace
+      - ./api/img:/img
+    depends_on:
+      - db
 volumes:
   db-data:
