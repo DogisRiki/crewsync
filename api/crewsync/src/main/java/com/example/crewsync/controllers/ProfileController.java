@@ -64,7 +64,7 @@ public class ProfileController {
             return RouteConstants.PROFILE;
         }
         try {
-            profileEditService.editProfile(profileEditForm);
+            profileEditService.editProfile(user, profileEditForm);
             model.addAttribute("success", "処理が正常に完了しました");
         } catch (Exception e) {
             log.error("プロフィールの更新に失敗しました: {}", e.getMessage());
