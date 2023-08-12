@@ -23,8 +23,6 @@ public class ProfileEditService {
 
     private final ProfileEditMapper profileEditMapper;
 
-    private LoginUser user;
-
     // 仮のプロフィール画像保存先
     public static final String PROFILE_IMG_DEST = "/img/00_profile/";
 
@@ -41,7 +39,6 @@ public class ProfileEditService {
      * @return 個人情報入力フォーム
      */
     public ProfileEditForm initPersonalInfo(LoginUser user) {
-        this.user = user;
         Optional<ProfileEditForm> optionalForm = profileEditMapper.createProfileEditForm(user.getId());
         return optionalForm.orElse(new ProfileEditForm());
     }
@@ -53,7 +50,7 @@ public class ProfileEditService {
      * @throws Exception トランザクションエラーやIOエラーなど
      */
     @Transactional(rollbackFor = Throwable.class)
-    public void editProfile(ProfileEditForm form) throws Exception {
+    public void editProfile(LoginUser user, ProfileEditForm form) throws Exception {
 
         // アップロードされた画像ファイル
         MultipartFile uploadImgFile = form.getUploadFile();
@@ -65,12 +62,15 @@ public class ProfileEditService {
         File dest = null;
 
         try {
-            // 既存の画像を一時ディレクトリへ移動
+            // 本番用ディレクトリオブジェクト
             File directory = new File(absolutePath);
+            // 一時用ディレクトリオブジェクト
             File tmpDirectory = new File(tmpPath);
+            // 一時用ディレクトリが存在しなければ作成する
             if (!tmpDirectory.exists()) {
                 tmpDirectory.mkdirs();
             }
+            // 本番用ディレクトリ内のファイルを一時用ディレクリへ移動する
             if (directory.exists()) {
                 for (File target : directory.listFiles()) {
                     if (target.isFile()) {
@@ -119,6 +119,7 @@ public class ProfileEditService {
             if (dest != null) {
                 dest.delete();
             }
+            // 一時用ディレクトリへ退避しておいた画像ファイルを本番用ディレクトリへ戻す
             for (File target : new File(tmpPath).listFiles()) {
                 File originalDest = new File(absolutePath + target.getName());
                 Files.move(target.toPath(), originalDest.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -130,7 +131,7 @@ public class ProfileEditService {
 
     /**
      * プロフィール画像を取得します
-     * 
+     *
      * @param id ユーザーID
      * @return プロフィール画像オブジェクト
      */

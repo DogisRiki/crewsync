@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:crewsync;MODE=MySQL;DB_CLOSE_DELAY=-1
+    username: root
+    password: root
+  sql:
+    init:
+      mode: always
