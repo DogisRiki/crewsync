@@ -39,4 +39,5 @@ jobs:
         run: chmod +x ./api/crewsync/gradlew
 
       - name: Run tests
-        run: docker-compose run api ./crewsync/gradlew test
+        run: |
+          docker-compose run api bash -c "cd ./crewsync && ./gradlew test"
