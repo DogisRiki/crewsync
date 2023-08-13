@@ -33,17 +33,11 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x ./api/crewsync/gradlew
 
-      - name: Build with Gradle(Jacoco)
-        run: cd ./api/crewsync && ./gradlew build jacocoTestReport
+      - name: Build with Gradle
+        run: cd ./api/crewsync && ./gradlew build
 
       - name: Archive unit test results
         uses: actions/upload-artifact@v2
         with:
           name: unit-test-report
-          path: build/reports/tests/test
-
-      - name: Archive coverage results
-        uses: actions/upload-artifact@v2
-        with:
-          name: code-coverage-report
-          path: build/reports/jacoco/test/html
+          path: api/crewsync/build/reports/tests/test
