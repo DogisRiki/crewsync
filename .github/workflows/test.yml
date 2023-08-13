@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-22.04
 
     env:
@@ -22,19 +22,38 @@ jobs:
       SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Check out code
+        uses: actions/checkout@v3
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
         with:
-          java-version: "17"
-          distribution: "corretto"
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
-      - name: Make Gradle executable
+      - name: Setup Docker Compose
+        run: |
+          echo "MYSQL_DATABASE=${MYSQL_DATABASE}" > ./db/db-access.env
+          echo "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}" >> ./db/db-access.env
+          echo "MYSQL_USER=${MYSQL_USER}" >> ./db/db-access.env
+          echo "MYSQL_PASSWORD=${MYSQL_PASSWORD}" >> ./db/db-access.env
+          echo "TZ=${TZ}" >> ./db/db-access.env
+          echo "SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}" > ./api/db-access.env
+          echo "SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}" >> ./api/db-access.env
+          echo "SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}" >> ./api/db-access.env
+          docker-compose up -d db
+          docker-compose build test
+
+      - name: Set executable permission for gradlew
         run: chmod +x ./api/crewsync/gradlew
 
-      - name: Build with Gradle
-        run: cd ./api/crewsync && ./gradlew build
+      - name: Run tests
+        run: |
+          docker-compose run test bash -c "cd ./crewsync && ./gradlew test"
 
       - name: Archive unit test results
         uses: actions/upload-artifact@v2
