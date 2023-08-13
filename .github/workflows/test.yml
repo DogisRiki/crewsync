@@ -2,13 +2,13 @@ name: Spring CI with Gradle
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
 
 permissions:
   contents: read
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-22.04
 
     env:
@@ -22,32 +22,28 @@ jobs:
       SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
 
     steps:
-      - name: Check out code
-        uses: actions/checkout@v3
+    - uses: actions/checkout@v3
 
-      - name: Cache Gradle packages
-        uses: actions/cache@v3
-        with:
-          path: ./crewsync/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ runner.os }}-gradle
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'corretto'
 
-      - name: Setup Docker Compose
-        run: |
-          echo "MYSQL_DATABASE=${MYSQL_DATABASE}" > ./db/db-access.env
-          echo "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}" >> ./db/db-access.env
-          echo "MYSQL_USER=${MYSQL_USER}" >> ./db/db-access.env
-          echo "MYSQL_PASSWORD=${MYSQL_PASSWORD}" >> ./db/db-access.env
-          echo "TZ=${TZ}" >> ./db/db-access.env
-          echo "SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}" > ./api/db-access.env
-          echo "SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}" >> ./api/db-access.env
-          echo "SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}" >> ./api/db-access.env
-          docker-compose up -d db
-          docker-compose build test
+    - name: Make Gradle executable
+      run: chmod +x ./api/crewsync/gradlew
 
-      - name: Set executable permission for gradlew
-        run: chmod +x ./api/crewsync/gradlew
+    - name: Build with Gradle(Jacoco)
+      run: ./api/crewsync/gradlew build jacocoTestReport
 
-      - name: Run tests
-        run: |
-          docker-compose run test bash -c "cd ./crewsync && ./gradlew test"
+    - name: Archive unit test results
+      uses: actions/upload-artifact@v2
+      with:
+        name: unit-test-report
+        path: build/reports/tests/test
+
+    - name: Archive coverage results
+      uses: actions/upload-artifact@v2
+      with:
+        name: code-coverage-report
+        path: build/reports/jacoco/test/html
