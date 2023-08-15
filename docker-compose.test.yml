@@ -6,20 +6,16 @@ services:
     build:
       context: ./db/
       dockerfile: Dockerfile
-    ports:
-      - 13306:3306
     env_file:
       - ./db/db-access.env
     volumes:
       - db-data:/var/lib/mysql/
-    restart: always
-  api:
-    container_name: spring
+    restart: no
+  test:
+    container_name: test
     build:
       context: ./api/
-      dockerfile: Dockerfile
-    ports:
-      - 18080:8080
+      dockerfile: Test.Dockerfile
     env_file:
       - ./api/db-access.env
     tty: true

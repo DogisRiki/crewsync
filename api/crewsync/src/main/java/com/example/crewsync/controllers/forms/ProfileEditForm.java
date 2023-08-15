@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 /**
- * プロフィール編集画面入力フォームです
+ * プロフィール編集画面フォームです
  */
 public class ProfileEditForm implements Serializable {
 

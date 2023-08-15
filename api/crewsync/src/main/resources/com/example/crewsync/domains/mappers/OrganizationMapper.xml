@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+  "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.crewsync.domains.mappers.OrganizationMapper">
+  <!-- 部署一覧を取得します -->
+  <select id="getDepartmentCd" resultType="com.example.crewsync.domains.models.SearchOption">
+    <![CDATA[
+      SELECT
+        dp.dept_cd AS code,
+        dp.dept_nm AS name
+      FROM
+        depts dp
+      WHERE
+        avf <= CURDATE()
+        AND
+        NOT EXISTS (
+          SELECT
+            1
+          FROM
+            depts
+          WHERE
+            dept_cd = dp.dept_cd
+            AND
+            avf <= CURDATE()
+            AND
+            avf > dp.avf
+        )
+    ]]>
+  </select>
+  <!-- 役職一覧を取得します -->
+  <select id="getPositionCd" resultType="com.example.crewsync.domains.models.SearchOption">
+    <![CDATA[
+      SELECT
+        pos.pos_cd AS code,
+        pos.pos_nm AS name
+      FROM
+        positions pos
+      WHERE
+        avf <= CURDATE()
+        AND
+        NOT EXISTS (
+          SELECT
+            1
+          FROM
+            positions
+          WHERE
+            pos_cd = pos.pos_cd
+            AND
+            avf <= CURDATE()
+            AND
+            avf > pos.avf
+        )
+    ]]>
+  </select>
+</mapper>

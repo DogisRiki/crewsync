@@ -131,7 +131,7 @@ public class ProfileEditServiceUnitTest {
     }
 
     @Test
-    @DisplayName("editProdile():異常系(画像ファイルの転送に失敗)")
+    @DisplayName("editProfile():異常系(画像ファイルの転送に失敗)")
     public void test005_editProfile() throws Exception {
         // Given
         LoginUser user = new LoginUser();
