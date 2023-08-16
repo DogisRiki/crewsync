@@ -16,6 +16,7 @@
     <title>ユーザー情報一覧</title>
   </head>
   <body>
+    <div th:replace="~{fragments/toast :: toast}"></div>
     <div class="cover"></div>
     <div th:replace="~{fragments/side-nav :: side-nav}"></div>
     <div class="main">
@@ -31,7 +32,7 @@
             </a>
           </div>
           <!-- 検索条件 -->
-          <form th:action="@{manage/user/UserSearch.do}" class="my-2" th:object="${userSearchForm}">
+          <form th:action="@{/manage/users/search}" class="my-2" th:object="${userSearchForm}">
             <div class="d-flex align-items-between">
               <h5 class="me-2">検索条件</h5>
               <a href="#" id="condition-toggler" data-bs-toggle="collapse" data-bs-target="#searchCondition">
@@ -90,14 +91,26 @@
                   <th class="sticky-top bg-white text-truncate">役職</th>
                 </tr>
               </thead>
-              <tbody></tbody>
+              <tbody>
+                <tr th:each="user : ${userList}">
+                  <td>
+                    <a href="#">
+                      <i class="bi bi-pen"></i>
+                    </a>
+                  </td>
+                  <td th:text="${user.empNo}"></td>
+                  <td th:text="${user.username}"></td>
+                  <td th:text="${user.deptName}"></td>
+                  <td th:text="${user.posName}"></td>
+                </tr>
+              </tbody>
             </table>
             <div class="position-sticky top-100 start-0 py-2"></div>
           </div>
         </div>
       </div>
     </div>
-    <div th:replace="~{fragments/toast :: toast}"></div>
+    <!-- <div th:replace="~{fragments/toast :: toast}"></div> -->
     <script type="text/javascript">
       $(function () {
         $(document).on("click", "#condition-toggler", function (e) {

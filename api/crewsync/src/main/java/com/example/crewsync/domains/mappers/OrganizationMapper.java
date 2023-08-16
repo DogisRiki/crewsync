@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.example.crewsync.domains.models.SearchOption;
 
 /**
- * ユーザー検索画面プルダウンのマッパーインターフェースです
+ * ユーザー検索画面プルダウン初期化のマッパーインターフェースです
  */
 @Mapper
 public interface OrganizationMapper {
