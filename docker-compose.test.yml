@@ -11,8 +11,8 @@ services:
     volumes:
       - db-data:/var/lib/mysql/
     restart: no
-  test:
-    container_name: test
+  api:
+    container_name: spring
     build:
       context: ./api/
       dockerfile: Test.Dockerfile
