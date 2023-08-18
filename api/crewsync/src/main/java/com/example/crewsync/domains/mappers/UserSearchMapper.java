@@ -20,4 +20,12 @@ public interface UserSearchMapper {
      * @return ユーザー一覧
      */
     public List<LoginUser> loadUserList(UserSearchForm form);
+
+    /**
+     * ユーザー一覧検索結果の件数を取得します
+     * 
+     * @param form 検索フォーム
+     * @return 検索件数
+     */
+    public int countUser(UserSearchForm form);
 }

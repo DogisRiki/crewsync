@@ -46,6 +46,16 @@ public class UserSearchService {
     }
 
     /**
+     * 検索条件に基づいたユーザー検索結果の件数を取得します
+     *
+     * @param form ユーザー情報検索フォーム
+     * @return 検索件数
+     */
+    public int countUser(UserSearchForm form) {
+        return userSearchMapper.countUser(form);
+    }
+
+    /**
      * フォームに部署と役職を設定します
      *
      * @param form ユーザー情報検索フォーム

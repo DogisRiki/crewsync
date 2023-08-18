@@ -23,4 +23,8 @@ public class UserSearchForm {
     private List<SearchOption> deptOptions;
 
     private List<SearchOption> posOptions;
+
+    private int pageFrom;
+
+    private int pageTo;
 }

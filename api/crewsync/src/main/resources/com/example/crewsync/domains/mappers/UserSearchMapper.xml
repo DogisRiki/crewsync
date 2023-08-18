@@ -94,5 +94,96 @@
         u.pos_cd = #{posCd}
       ]]>
     </if>
+    <![CDATA[
+      ORDER BY u.dept_cd, u.emp_no
+      LIMIT #{pageFrom}, #{pageTo}
+    ]]>
+  </select>
+  <!-- 検索件数を取得します -->
+  <select id="countUser" parameterType="com.example.crewsync.controllers.forms.UserSearchForm" resultType="int">
+    <![CDATA[
+      SELECT
+        COUNT(*)
+      FROM
+        users u
+      INNER JOIN
+        depts dp
+      ON
+        dp.dept_cd = u.dept_cd
+        AND
+        dp.avf <= CURDATE()
+        AND
+        NOT EXISTS (
+          SELECT
+            1
+          FROM
+            depts
+          WHERE
+            dept_cd = dp.dept_cd
+            AND
+            avf <= CURDATE()
+            AND
+            avf > dp.avf
+        )
+      INNER JOIN
+        positions pos
+      ON
+        pos.pos_cd = u.pos_cd
+        AND
+        pos.avf <= CURDATE()
+        AND
+        NOT EXISTS (
+          SELECT
+            1
+          FROM
+            positions
+          WHERE
+            pos_cd = pos.pos_cd
+            AND
+            avf <= CURDATE()
+            AND
+            avf > pos.avf
+        )
+      WHERE
+        u.avf <= CURDATE()
+        AND
+        NOT EXISTS (
+          SELECT
+            1
+          FROM
+            users
+          WHERE
+            email = u.email
+            AND
+            avf <= CURDATE()
+            AND
+            avf > u.avf
+        )
+    ]]>
+    <!-- 検索条件を設定 -->
+    <if test="empNo != null">
+      <![CDATA[
+        AND
+        u.emp_no = #{empNo}
+      ]]>
+    </if>
+    <if test="name != null">
+      <![CDATA[
+        AND
+        u.name = #{name}
+      ]]>
+    </if>
+    <if test="deptCd != null">
+      <![CDATA[
+        AND
+        u.dept_cd = #{deptCd}
+      ]]>
+    </if>
+    <if test="posCd != null">
+      <![CDATA[
+        AND
+        u.pos_cd = #{posCd}
+      ]]>
+    </if>
   </select>
 </mapper>

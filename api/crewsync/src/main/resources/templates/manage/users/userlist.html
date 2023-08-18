@@ -91,8 +91,8 @@
                   <th class="sticky-top bg-white text-truncate">役職</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr th:each="user : ${userList}">
+              <tbody th:if="${searchResult}">
+                <tr th:each="user : ${searchResult.entities}">
                   <td>
                     <a href="#">
                       <i class="bi bi-pen"></i>
@@ -105,12 +105,11 @@
                 </tr>
               </tbody>
             </table>
-            <div class="position-sticky top-100 start-0 py-2"></div>
           </div>
         </div>
+        <div th:replace="~{fragments/pagenation :: pagenation(@{/manage/users/userview})}"></div>
       </div>
     </div>
-    <!-- <div th:replace="~{fragments/toast :: toast}"></div> -->
     <script type="text/javascript">
       $(function () {
         $(document).on("click", "#condition-toggler", function (e) {
