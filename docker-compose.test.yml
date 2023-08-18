@@ -10,7 +10,7 @@ services:
       - ./db/db-access.env
     volumes:
       - db-data:/var/lib/mysql/
-    restart: no
+    restart: on-failure
   api:
     container_name: spring
     build:
