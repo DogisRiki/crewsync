@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>開発用アカウント作成ページ</title>
+  </head>
+  <body>
+    <h1>アカウント作成</h1>
+    <form th:action="@{/dev/create-account}" method="post">
+      <label for="role">権限:</label>
+      <select id="role" name="role">
+        <option value="01">ROLE_USER</option>
+        <option value="02">ROLE_MANAGER</option>
+        <option value="03">ROLE_ADMIN</option>
+      </select>
+      <br />
+      <label for="email">Eメールアドレス:</label>
+      <input type="email" id="email" name="email" required />
+      <br />
+      <label for="name">名前:</label>
+      <input type="text" id="name" name="name" required />
+      <br />
+      <label for="password">パスワード:</label>
+      <input type="password" id="password" name="password" required />
+      <br />
+      <label for="emp_no">社員番号:</label>
+      <input type="text" id="emp_no" name="emp_no" />
+      <br />
+      <label for="dept_cd">部署コード:</label>
+      <select id="dept_cd" name="dept_cd">
+        <option value="0000000">システム管理者</option>
+        <option value="0000001">営業部</option>
+        <option value="0000002">経理部</option>
+        <option value="0000003">人事部</option>
+        <option value="0000004">総務部</option>
+      </select>
+      <br />
+      <label for="pos_cd">役職コード:</label>
+      <select id="pos_cd" name="pos_cd">
+        <option value="0000">管理者</option>
+        <option value="0001">部長</option>
+        <option value="0002">課長</option>
+        <option value="0003">係長</option>
+        <option value="0004">一般</option>
+      </select>
+      <br />
+      <input type="submit" value="作成" />
+    </form>
+    <p th:text="${message}"></p>
+    <p th:text="${error}" style="color: red"></p>
+  </body>
+</html>

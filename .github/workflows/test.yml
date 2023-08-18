@@ -45,8 +45,8 @@ jobs:
           echo "SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}" > ./api/db-access.env
           echo "SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}" >> ./api/db-access.env
           echo "SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}" >> ./api/db-access.env
-          docker-compose up -d db
-          docker-compose build test
+          docker-compose -f docker-compose.test.yml up -d db
+          docker-compose -f docker-compose.test.yml build test
 
       - name: Set executable permission for gradlew
         run: chmod +x ./api/crewsync/gradlew

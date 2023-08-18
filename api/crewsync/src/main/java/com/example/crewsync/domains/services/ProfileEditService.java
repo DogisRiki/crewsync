@@ -70,18 +70,18 @@ public class ProfileEditService {
             if (!tmpDirectory.exists()) {
                 tmpDirectory.mkdirs();
             }
-            // 本番用ディレクトリ内のファイルを一時用ディレクリへ移動する
-            if (directory.exists()) {
-                for (File target : directory.listFiles()) {
-                    if (target.isFile()) {
-                        File tmpDest = new File(tmpPath + target.getName());
-                        Files.move(target.toPath(), tmpDest.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                    }
-                }
-            }
 
             // アップロードされた画像を本番用ディレクトリへ保存
             if (!uploadImgFile.isEmpty()) {
+                // 本番用ディレクトリ内のファイルを一時用ディレクトリへ移動する
+                if (directory.exists()) {
+                    for (File target : directory.listFiles()) {
+                        if (target.isFile()) {
+                            File tmpDest = new File(tmpPath + target.getName());
+                            Files.move(target.toPath(), tmpDest.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                        }
+                    }
+                }
                 dest = new File(absolutePath + uploadImgFile.getOriginalFilename());
                 uploadImgFile.transferTo(dest);
 

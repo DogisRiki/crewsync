@@ -3,12 +3,13 @@ package com.example.crewsync.security;
 import java.io.IOException;
 
 import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
-import com.example.crewsync.common.utils.constants.ErrorMessageKeys;
+import com.example.crewsync.common.utils.constants.MessageKeys;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,23 +49,23 @@ public class LoginAuthenticationFailureHandler implements AuthenticationFailureH
 
         switch (exception.getClass().getSimpleName()) {
             case "BadCredentialsException":
-                errorMessageKey = ErrorMessageKeys.BAD_CREDENTIALS;
+                errorMessageKey = MessageKeys.BAD_CREDENTIALS;
                 break;
             case "DisabledException":
-                errorMessageKey = ErrorMessageKeys.DISABLED;
+                errorMessageKey = MessageKeys.DISABLED;
                 break;
             case "AccountExpiredException":
-                errorMessageKey = ErrorMessageKeys.EXPIRED;
+                errorMessageKey = MessageKeys.EXPIRED;
                 break;
             case "LockedException":
-                errorMessageKey = ErrorMessageKeys.LOCKED;
+                errorMessageKey = MessageKeys.LOCKED;
                 break;
             default:
-                errorMessageKey = ErrorMessageKeys.UNKNOWN;
+                errorMessageKey = MessageKeys.UNKNOWN;
                 break;
         }
 
-        String errorMessage = messageSource.getMessage(errorMessageKey, null, request.getLocale());
+        String errorMessage = messageSource.getMessage(errorMessageKey, null, LocaleContextHolder.getLocale());
         HttpSession session = request.getSession(false);
 
         if (session != null) {
