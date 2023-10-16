@@ -18,8 +18,9 @@
     <association property="imageFile" javaType="com.example.crewsync.domains.models.ImageFile">
       <result property="fileName" column="profile_img" />
     </association>
-    <collection property="roles" ofType="java.lang.String">
-      <result column="code_nm" />
+    <collection property="roles" ofType="com.example.crewsync.domains.models.SearchOption">
+      <result property="code" column="role"/>
+      <result property="name" column="code_nm" />
     </collection>
   </resultMap>
   <!-- メールアドレスからユーザー情報を取得します -->
@@ -37,6 +38,8 @@
         codemst.code_nm,
         users.emp_no,
         users.profile_img,
+        users.dept_cd,
+        users.pos_cd,
         dp.dept_nm,
         pos.pos_nm
       FROM
@@ -106,6 +109,75 @@
         users.email = #{email}
         AND
         RC.RN = 1
+    ]]>
+  </select>
+  <!-- ユーザーIDからユーザーを検索します -->
+  <select id="findUserById" parameterType="java.lang.Long" resultMap="userDetails">
+    <![CDATA[
+      SELECT
+        users.id,
+        users.email,
+        users.avf,
+        users.name,
+        users.password,
+        users.locked,
+        users.expired,
+        user_roles.role,
+        codemst.code_nm,
+        users.emp_no,
+        users.profile_img,
+        users.dept_cd,
+        users.pos_cd,
+        dp.dept_nm,
+        pos.pos_nm
+      FROM
+        users
+      LEFT OUTER JOIN
+        user_roles
+      ON
+        user_roles.user_id = users.id
+      LEFT OUTER JOIN
+        codemst
+      ON
+        codemst.code_id = 1
+        AND
+        codemst.code = user_roles.role
+      INNER JOIN
+        depts dp
+      ON
+        dp.dept_cd = users.dept_cd
+        AND
+        NOT EXISTS (
+          SELECT
+            1
+          FROM
+            depts
+          WHERE
+            depts.dept_cd = dp.dept_cd
+            AND
+            depts.avf<= CURDATE()
+            AND
+            depts.avf > dp.avf
+        )
+      INNER JOIN
+        positions pos
+      ON
+        pos.pos_cd = users.pos_cd
+        AND
+        NOT EXISTS (
+          SELECT
+            1
+          FROM
+            positions
+          WHERE
+            positions.pos_cd = pos.pos_cd
+            AND
+            positions.avf <= CURDATE()
+            AND
+            positions.avf > pos.avf
+        )
+      WHERE
+        users.id = #{id}
     ]]>
   </select>
 </mapper>

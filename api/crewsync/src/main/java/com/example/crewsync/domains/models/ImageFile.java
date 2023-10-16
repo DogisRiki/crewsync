@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Base64;
 
+import org.springframework.util.StringUtils;
+
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,6 +25,10 @@ public class ImageFile {
      * @return エンコード済み文字列
      */
     public String encodedString() {
+
+        if (!StringUtils.hasText(fileName)) {
+            fileName = "crewsync/src/main/resources/static/img/anonymous.png";
+        }
 
         File imageFile = new File(fileName);
         StringBuffer base64String = new StringBuffer();

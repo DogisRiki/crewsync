@@ -18,24 +18,25 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginController {
 
     /**
-     * トップページ画面初期表示処理です
+     * トップページ画面初期表示処理を実行します
      *
-     * @param user  ログインユーザー
-     * @param model モデル
+     * @param userDetails ユーザー認証情報
+     * @param model       モデル
      * @return 遷移先
      */
     @GetMapping("/")
     public String initTop(@AuthenticationPrincipal LoginUserDetails userDetails, Model model) {
-        LoginUser user = userDetails.getLoginUser();
-        log.info("ログインユーザー: {}", user.getUsername());
-        model.addAttribute("loginUser", user);
+        if (userDetails != null) {
+            LoginUser user = userDetails.getLoginUser();
+            model.addAttribute("loginUser", user);
+        }
         return RouteConstants.TOP;
     }
 
     /**
-     * ログイン画面初期表示処理です
+     * ログイン画面初期表示処理を実行します
      *
-     * @param session セッション
+     * @param session セッション情報
      * @param model   モデル
      * @return 遷移先
      */

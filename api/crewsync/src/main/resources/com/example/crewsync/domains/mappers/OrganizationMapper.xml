@@ -54,4 +54,16 @@
         )
     ]]>
   </select>
+  <!-- 権限一覧を取得します -->
+  <select id="getCode" parameterType="long" resultType="com.example.crewsync.domains.models.SearchOption">
+    <![CDATA[
+      SELECT
+        code as code,
+        code_nm as name
+      FROM
+        codemst
+      WHERE
+        code_id = #{id}
+    ]]>
+  </select>
 </mapper>

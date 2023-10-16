@@ -26,4 +26,12 @@ public interface OrganizationMapper {
      */
     public List<SearchOption> getPositionCd();
 
+    /**
+     * 権限一覧を取得します
+     *
+     * @param id ユーザーID
+     * @return 権限一覧
+     */
+    public List<SearchOption> getCode(long id);
+
 }

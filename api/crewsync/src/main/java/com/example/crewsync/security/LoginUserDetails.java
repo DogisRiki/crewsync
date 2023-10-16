@@ -29,7 +29,7 @@ public class LoginUserDetails implements UserDetails {
         this.loginUser = loginUser;
         this.authorities = loginUser.getRoles()
                 .stream()
-                .map(SimpleGrantedAuthority::new)
+                .map(role -> new SimpleGrantedAuthority(role.getCode()))
                 .collect(Collectors.toList());
     }
 

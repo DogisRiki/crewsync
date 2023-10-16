@@ -34,61 +34,61 @@ INSERT INTO
 VALUES
 -- dept:システム管理, position:管理者
   (
-  'test@crewsync.jp',
+  'admin@crewsync.jp',
   '2023-07-17',
-  'test',
+  'admin',
   '$2a$10$6zqr3VI3c/iB9FLOWj7kP.kWSaf2dL7TnAxuPqkxWK18US4.3DzB2',
   0,
   0,
   '00000000',
   '0000000',
   '0000',
-  '/img/00_profile/00000000/test.jpg'
+  '/img/00_profile/00000000/admin.jpg'
   ),
   -- dept:営業部, position:部長
   (
-  'test2@crewsync.jp',
+  'manager@crewsync.jp',
   '2023-07-17',
-  'test2',
+  'manager',
   '$2a$10$6zqr3VI3c/iB9FLOWj7kP.kWSaf2dL7TnAxuPqkxWK18US4.3DzB2',
   0,
   0,
   '00000001',
   '0000001',
   '0001',
-  '/img/00_profile/00000001/test2.jpg'
+  '/img/00_profile/00000001/manager.jpg'
   ),
   -- dept:経理部, position:課長
   (
-  'test3@crewsync.jp',
+  'manager2@crewsync.jp',
   '2023-07-17',
-  'test3',
+  'manager2',
   '$2a$10$6zqr3VI3c/iB9FLOWj7kP.kWSaf2dL7TnAxuPqkxWK18US4.3DzB2',
   0,
   0,
   '00000002',
   '0000002',
   '0002',
-  '/img/00_profile/00000001/test3.jpg'
+  '/img/00_profile/00000002/manager2.jpg'
   ),
   -- dept:人事部, position:一般
   (
-  'test4@crewsync.jp',
+  'user@crewsync.jp',
   '2023-07-17',
-  'test4',
+  'user',
   '$2a$10$6zqr3VI3c/iB9FLOWj7kP.kWSaf2dL7TnAxuPqkxWK18US4.3DzB2',
   0,
   0,
   '00000003',
   '0000003',
   '0004',
-  '/img/00_profile/00000002/test4.jpg'
+  '/img/00_profile/00000003/user.jpg'
   );
-
 
 INSERT INTO
   user_roles (user_id,`role`,delflg)
 VALUES
+  (1, '03', '0'),
   (120,'03','0'),
   (121,'02','0'),
   (122,'02','0'),
@@ -98,3 +98,8 @@ INSERT INTO
   personal_info (user_id,last_name,first_name,zipcode,pref,city,bldg,telno,mobile_no)
 VALUES
   (120,'テスト','太郎','1001000','東京都','港区六本木','X-X-X','0312345678','09012345678');
+
+INSERT INTO
+  numbering_ledger (numbering_cd, avail_year, nextno, digits)
+VALUES
+  ('E00', '2023', 1, 4);

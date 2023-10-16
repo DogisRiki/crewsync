@@ -10,6 +10,9 @@ import com.example.crewsync.domains.mappers.OrganizationMapper;
 import com.example.crewsync.domains.mappers.UserSearchMapper;
 import com.example.crewsync.security.LoginUser;
 
+/**
+ * ユーザー検索処理のビジネスロジックを実行します
+ */
 @Service
 public class UserSearchService {
 

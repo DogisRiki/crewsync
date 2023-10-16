@@ -28,3 +28,8 @@ VALUES
     ('0002', '2023-01-01', '課長'),
     ('0003', '2023-01-01', '係長'),
     ('0004', '2023-01-01', '一般');
+
+INSERT INTO
+  numbering_ledger (numbering_cd, avail_year, nextno, digits, updusr, upddate)
+VALUES
+  ('E00', '2023', 1, 4, NULL, CURDATE());

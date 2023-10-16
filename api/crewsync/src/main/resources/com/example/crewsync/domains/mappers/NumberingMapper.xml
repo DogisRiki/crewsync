@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+  "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.crewsync.domains.mappers.NumberingMapper">
+  <!-- 指定された番号コードと利用年に基づいて次の番号を発行します -->
+  <select id="issueNumber" resultType="java.lang.String">
+    <![CDATA[
+      SELECT
+        LPAD(nextno, digits, '0') AS nextno
+      FROM
+        numbering_ledger
+      WHERE
+        numbering_cd = #{numberingCode}
+        AND
+        avail_year = #{availYear}
+    ]]>
+  </select>
+  <!-- 指定された番号コードと利用年に基づいて番号管理台帳を更新し、次の番号を準備します -->
+  <update id="next">
+    <![CDATA[
+      UPDATE
+        numbering_ledger
+      SET
+        nextno = nextno + 1,
+        updusr = #{user.id},
+        upddate = CURDATE()
+      WHERE
+        numbering_cd = #{numberingCode}
+        AND
+        avail_year = #{availYear}
+    ]]>
+  </update>
+</mapper>

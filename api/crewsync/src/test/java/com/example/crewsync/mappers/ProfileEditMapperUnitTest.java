@@ -54,7 +54,7 @@ public class ProfileEditMapperUnitTest {
         user.setId(1L);
         user.setPassword(passwordEncoder.encode("password"));
         ImageFile imageFile = new ImageFile();
-        imageFile.setFileName("/img/00_profile/12345/test.jpg");
+        imageFile.setFileName("/img/00_profile/12345/admin.jpg");
         user.setImageFile(imageFile);
         int result = profileEditMapper.updateProfile(user);
         assertEquals(1, result);
@@ -81,6 +81,6 @@ public class ProfileEditMapperUnitTest {
         long id = 1L;
         ImageFile result = profileEditMapper.getImageFileById(id);
         assertNotNull(result);
-        assertEquals("/img/00_profile/00000000/test.jpg", result.getFileName());
+        assertEquals("/img/00_profile/00000000/admin.jpg", result.getFileName());
     }
 }

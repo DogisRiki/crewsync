@@ -37,7 +37,7 @@ public class UserSearchController {
     }
 
     /**
-     * ユーザー検索画面初期表示処理です
+     * ユーザー検索画面の初期表示処理を実行します
      *
      * @param model モデル
      * @return 遷移先
@@ -51,8 +51,8 @@ public class UserSearchController {
     /**
      * ユーザー検索処理を実行します
      *
-     * @param form  検索条件フォーム
-     * @param model モデル
+     * @param userSearchForm 検索条件フォーム
+     * @param model          モデル
      * @return 遷移先
      */
     @GetMapping("/manage/users/search")

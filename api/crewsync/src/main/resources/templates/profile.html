@@ -84,7 +84,7 @@
                 class="form-control form-control-sm"
                 placeholder="変更後のパスワード"
                 th:field="*{password}"
-                th:classappend="${#fields.hasErrors('password') || #fields.hasErrors('passwordConfirmed')
+                th:classappend="${#fields.hasErrors('password') || #fields.hasErrors('passwordConfirm')
 												? 'is-invalid bg-light' : ''}"
               />
             </div>
@@ -99,15 +99,15 @@
                 placeholder="再入力"
                 th:field="*{passwordConfirm}"
                 th:classappend="${#fields.hasErrors('passwordConfirm') ||
-												#fields.hasErrors('passwordConfirmed') ? 'is-invalid bg-light' : ''}"
+												#fields.hasErrors('passwordConfirm') ? 'is-invalid bg-light' : ''}"
               />
             </div>
             <div class="col col-12 col-md-4">
               <div th:if="${#fields.hasErrors('passwordConfirm')}">
                 <span class="text-danger" th:errors="*{passwordConfirm}"></span>
               </div>
-              <div th:if="${#fields.hasErrors('passwordConfirmed')}">
-                <span class="text-danger" th:errors="*{passwordConfirmed}"></span>
+              <div th:if="${#fields.hasErrors('passwordConfirm')}">
+                <span class="text-danger" th:errors="*{passwordConfirm}"></span>
               </div>
             </div>
           </div>

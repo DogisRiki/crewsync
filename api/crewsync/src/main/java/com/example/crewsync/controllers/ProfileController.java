@@ -34,10 +34,10 @@ public class ProfileController {
     }
 
     /**
-     * プロフィール編集画面初期表示処理です
+     * プロフィール編集画面の初期表示処理を実行します
      *
-     * @param user  ユーザー情報
-     * @param model モデル
+     * @param userDetails ユーザー認証情報
+     * @param model       モデル
      * @return 遷移先
      */
     @GetMapping("/profile")
@@ -52,9 +52,9 @@ public class ProfileController {
      * プロフィール編集処理を実行します
      *
      * @param profileEditForm プロフィール編集フォーム
-     * @param result          バリデーションエラー結果
+     * @param result          バリデーション結果
      * @param model           モデル
-     * @param user            ユーザー情報
+     * @param userDetails     ユーザー認証情報
      * @return 遷移先
      */
     @PostMapping("/profile/edit")
