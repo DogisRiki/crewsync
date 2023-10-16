@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.example.crewsync.domains.models.ImageFile;
+import com.example.crewsync.domains.models.SearchOption;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -43,17 +44,23 @@ public class LoginUser implements Serializable {
     private boolean expired;
 
     // ロール
-    private List<String> roles;
+    private List<SearchOption> roles;
 
     // 社員番号
     private String empNo;
 
+    // 役職コード
+    private String deptCd;
+
     // 役職名
     private String deptName;
+
+    // ポジションコード
+    private String posCd;
 
     // ポジション名
     private String posName;
 
     // プロフィール画像のパス
-    private ImageFile imageFile;
+    private ImageFile imageFile = new ImageFile();
 }

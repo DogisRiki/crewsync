@@ -28,39 +28,39 @@ public class UserSearchMapperUnitTest {
     public void test001_loadUserList() {
         // Given:ユーザーをセット
         LoginUser expectUser = new LoginUser();
-        expectUser.setEmail("test@crewsync.jp");
+        expectUser.setEmail("admin@crewsync.jp");
         expectUser.setEmpNo("00000000");
-        expectUser.setUsername("test");
+        expectUser.setUsername("admin");
         expectUser.setDeptName("システム管理");
         expectUser.setPosName("管理者");
         List<LoginUser> expectUserList = Arrays.asList(expectUser);
         // Given:ユーザーをセット
         LoginUser expectUser2 = new LoginUser();
-        expectUser2.setEmail("test2@crewsync.jp");
+        expectUser2.setEmail("manager@crewsync.jp");
         expectUser2.setEmpNo("00000001");
-        expectUser2.setUsername("test2");
+        expectUser2.setUsername("manager");
         expectUser2.setDeptName("営業部");
         expectUser2.setPosName("部長");
         List<LoginUser> expectUserList2 = Arrays.asList(expectUser2);
         // Given:ユーザーをセット
         LoginUser expectUser3 = new LoginUser();
-        expectUser3.setEmail("test3@crewsync.jp");
+        expectUser3.setEmail("manager2@crewsync.jp");
         expectUser3.setEmpNo("00000002");
-        expectUser3.setUsername("test3");
+        expectUser3.setUsername("manager2");
         expectUser3.setDeptName("経理部");
         expectUser3.setPosName("課長");
         List<LoginUser> expectUserList3 = Arrays.asList(expectUser3);
         // Given:ユーザーをセット
         LoginUser expectUser4 = new LoginUser();
-        expectUser4.setEmail("test4@crewsync.jp");
+        expectUser4.setEmail("user@crewsync.jp");
         expectUser4.setEmpNo("00000003");
-        expectUser4.setUsername("test4");
+        expectUser4.setUsername("user");
         expectUser4.setDeptName("人事部");
         expectUser4.setPosName("一般");
         List<LoginUser> expectUserList4 = Arrays.asList(expectUser4);
         // Given:検索条件をセット(社員名)
         UserSearchForm expectForm = new UserSearchForm();
-        expectForm.setName("test");
+        expectForm.setName("admin");
         expectForm.setPageFrom(0);
         expectForm.setPageTo(10);
         // Given:検索条件をセット(社員番号)
@@ -95,7 +95,7 @@ public class UserSearchMapperUnitTest {
     public void test002_loadUserList() {
         // Given
         UserSearchForm expectForm = new UserSearchForm();
-        expectForm.setName("aaaaaaaaa");
+        expectForm.setName("notfound");
         // When
         List<LoginUser> resultUserList = userSearchMapper.loadUserList(expectForm);
         // Then
@@ -129,13 +129,13 @@ public class UserSearchMapperUnitTest {
     }
 
     @Test
-    @DisplayName("countUser()")
+    @DisplayName("countUser():検索条件指定あり")
     public void test005_countUser() {
         // Given
         UserSearchForm expectForm = new UserSearchForm();
         expectForm.setPageFrom(0);
         expectForm.setPageTo(10);
-        expectForm.setName("test");
+        expectForm.setName("user");
         // When
         int count = userSearchMapper.countUser(expectForm);
         // Then

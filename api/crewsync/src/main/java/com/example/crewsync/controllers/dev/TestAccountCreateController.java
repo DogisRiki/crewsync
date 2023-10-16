@@ -1,4 +1,4 @@
-package com.example.crewsync.controllers;
+package com.example.crewsync.controllers.dev;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

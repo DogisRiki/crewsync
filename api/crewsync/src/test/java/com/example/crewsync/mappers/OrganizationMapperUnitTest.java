@@ -42,9 +42,9 @@ public class OrganizationMapperUnitTest {
         so5.setName("総務部");
         // When
         List<SearchOption> expectList = Arrays.asList(so1, so2, so3, so4, so5);
-        List<SearchOption> dpList = organizationMapper.getDepartmentCd();
+        List<SearchOption> actualList = organizationMapper.getDepartmentCd();
         // Then
-        assertEquals(expectList, dpList);
+        assertEquals(expectList, actualList);
     }
 
     @Test
@@ -68,9 +68,29 @@ public class OrganizationMapperUnitTest {
         so5.setName("一般");
         // When
         List<SearchOption> expectList = Arrays.asList(so1, so2, so3, so4, so5);
-        List<SearchOption> ptList = organizationMapper.getPositionCd();
+        List<SearchOption> actualList = organizationMapper.getPositionCd();
         // Then
-        assertEquals(expectList, ptList);
+        assertEquals(expectList, actualList);
+    }
+
+    @Test
+    @DisplayName("getCode()")
+    public void test003_getCode() {
+        // Given
+        SearchOption so1 = new SearchOption();
+        so1.setCode("01");
+        so1.setName("ROLE_USER");
+        SearchOption so2 = new SearchOption();
+        so2.setCode("02");
+        so2.setName("ROLE_MANAGER");
+        SearchOption so3 = new SearchOption();
+        so3.setCode("03");
+        so3.setName("ROLE_ADMIN");
+        // When
+        List<SearchOption> expectList = Arrays.asList(so1, so2, so3);
+        List<SearchOption> actualList = organizationMapper.getCode(1);
+        // Then
+        assertEquals(expectList, actualList);
     }
 
 }

@@ -48,7 +48,7 @@ public class SecurityConfig {
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/img/**").permitAll()
                         .requestMatchers("/js/**").permitAll()
-                        .requestMatchers("/").permitAll()
+                        // .requestMatchers("/").permitAll()
                         .anyRequest().authenticated());
         return http.build();
     }

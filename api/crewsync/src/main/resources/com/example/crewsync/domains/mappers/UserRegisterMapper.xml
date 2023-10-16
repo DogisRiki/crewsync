@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+  "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.crewsync.domains.mappers.UserRegisterMapper">
+  <!-- ユーザー権限を削除します -->
+  <delete id="depriveAuthority">
+    <![CDATA[
+      DELETE FROM
+        user_roles
+      WHERE
+        user_id = #{user.id}
+        AND
+        role = #{role}
+    ]]>
+  </delete>
+  <!-- ユーザー登録処理を実行します -->
+  <!-- pk(emailとavf)が重複している場合、name, dept_cd, pos_cd, profile_imgのみ更新処理を実行します -->
+  <insert id="registerUser">
+    <![CDATA[
+      INSERT INTO
+        users (
+          email,
+          avf,
+          name,
+          password,
+          locked,
+          expired,
+          emp_no,
+          dept_cd,
+          pos_cd,
+          profile_img
+        )
+      VALUES (
+          #{email},
+          #{avf},
+          #{username},
+          #{password},
+          0,
+          0,
+          #{empNo},
+          #{deptCd},
+          #{posCd},
+          #{imageFile.fileName}
+        )
+      ON DUPLICATE KEY UPDATE
+        name = #{username},
+        dept_cd = #{deptCd},
+        pos_cd = #{posCd},
+        profile_img = #{imageFile.fileName}
+    ]]>
+  </insert>
+  <!-- ユーザー権限登録処理を実行します -->
+  <insert id="grantAuthority">
+    <![CDATA[
+      INSERT INTO
+        user_roles (user_id, role, delflg)
+      VALUES
+        (#{user.id}, #{role}, '0')
+    ]]>
+  </insert>
+  <!-- 初期ユーザー情報を登録します -->
+  <insert id="registerInitialUser" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+      INSERT INTO
+        users (
+          email,
+          avf,
+          name,
+          password,
+          locked,
+          expired,
+          emp_no,
+          dept_cd,
+          pos_cd,
+          profile_img
+        )
+        VALUES (
+          #{email},
+          CURDATE(),
+          #{username},
+          #{password},
+          0,
+          0,
+          #{empNo},
+          '0000000',
+          '0000',
+          'crewsync/src/main/resources/static/img/anonymous.png'
+        )
+    ]]>
+  </insert>
+</mapper>

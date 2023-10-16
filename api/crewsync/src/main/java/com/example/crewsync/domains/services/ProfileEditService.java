@@ -16,6 +16,9 @@ import com.example.crewsync.domains.mappers.ProfileEditMapper;
 import com.example.crewsync.domains.models.ImageFile;
 import com.example.crewsync.security.LoginUser;
 
+/**
+ * プロフィール編集処理のビジネスロジックを実行します
+ */
 @Service
 public class ProfileEditService {
 

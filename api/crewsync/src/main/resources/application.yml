@@ -12,15 +12,16 @@ spring:
   sql:
     init:
       mode: never
-logging:
-  level:
-    root: INFO
-    # Spring Securityのログを出力したい場合: DEBUGに変更する
-    org.springframework.security: OFF
-  file:
-    name: crewsync/logs/app.log
 mybatis:
   mapper-locations: classpath:/com/example/crewsync/domains/mappers/*.xml
   configuration:
     map-underscore-to-camel-case: true
-debug: true
+logging:
+  level:
+    root: INFO
+    # Spring Securityのログを出力したい場合はコメントアウトを解除する
+    # org.springframework.security: OFF
+    org.springframework.web: DEBUG
+    com.example.crewsync.domains.mappers: DEBUG
+  file:
+    name: crewsync/logs/app.log

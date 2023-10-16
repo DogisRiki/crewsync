@@ -50,12 +50,15 @@ public class ProfileEditServiceUnitTest {
         LoginUser user = new LoginUser();
         user.setId(userId);
         ProfileEditForm expectForm = new ProfileEditForm();
-        // Stub(任意のlong値を引数に呼び出された際に、expectFormを返却するよう設定)
+
+        // Stub
         when(profileEditMapper.createProfileEditForm(anyLong())).thenReturn(Optional.of(expectForm));
+
         // When
-        ProfileEditForm resultForm = profileEditService.initPersonalInfo(user);
+        ProfileEditForm actualForm = profileEditService.initPersonalInfo(user);
+
         // Then
-        assertEquals(expectForm, resultForm);
+        assertEquals(expectForm, actualForm);
     }
 
     @Test
@@ -65,12 +68,15 @@ public class ProfileEditServiceUnitTest {
         long userId = 1L;
         LoginUser user = new LoginUser();
         user.setId(userId);
-        // Stub(任意のlong値を引数に呼び出された際に、空のOptionalオブジェクトを返却するよう設定)
+
+        // Stub
         when(profileEditMapper.createProfileEditForm(anyLong())).thenReturn(Optional.empty());
+
         // When
-        ProfileEditForm resultForm = profileEditService.initPersonalInfo(user);
+        ProfileEditForm actualForm = profileEditService.initPersonalInfo(user);
+
         // Then
-        assertNotNull(resultForm);
+        assertNotNull(actualForm);
     }
 
     @Test
@@ -83,11 +89,11 @@ public class ProfileEditServiceUnitTest {
         MultipartFile uploadImgFile = mock(MultipartFile.class);
         form.setUploadFile(uploadImgFile);
 
-        // 画像ファイルのモック
+        // Stub(画像ファイルのモック)
         when(uploadImgFile.isEmpty()).thenReturn(false);
         when(uploadImgFile.getOriginalFilename()).thenReturn("test.jpg");
 
-        // DB更新のモック
+        // Stub(DB更新のモック)
         when(profileEditMapper.updateProfile(any())).thenReturn(1);
         when(profileEditMapper.updatePersonalInfo(any())).thenReturn(1);
 
@@ -116,7 +122,7 @@ public class ProfileEditServiceUnitTest {
         MultipartFile uploadImgFile = mock(MultipartFile.class);
         form.setUploadFile(uploadImgFile);
 
-        // DB更新モック
+        // Stub
         when(profileEditMapper.updateProfile(any())).thenReturn(1);
         when(profileEditMapper.updatePersonalInfo(any())).thenReturn(0); // 個人情報更新に失敗させる
 
@@ -126,7 +132,6 @@ public class ProfileEditServiceUnitTest {
         });
 
         // Then
-        // 例外型の検証
         assertTrue(exception instanceof Exception);
     }
 
@@ -139,7 +144,7 @@ public class ProfileEditServiceUnitTest {
         MultipartFile uploadImgFile = mock(MultipartFile.class);
         form.setUploadFile(uploadImgFile);
 
-        // 画像ファイルの転送でIOExceptionをスローする
+        // Stub
         doThrow(IOException.class).when(uploadImgFile).transferTo(any(File.class));
 
         // When
@@ -148,7 +153,6 @@ public class ProfileEditServiceUnitTest {
         });
 
         // Then
-        // IOExceptionがスローされたか検証
         assertTrue(exception instanceof IOException);
     }
 
@@ -158,11 +162,14 @@ public class ProfileEditServiceUnitTest {
         // Given
         long id = 1L;
         ImageFile expectImageFile = new ImageFile();
+
         // Stub
         when(profileEditMapper.getImageFileById(anyLong())).thenReturn(expectImageFile);
+
         // When
-        ImageFile resultImageFile = profileEditMapper.getImageFileById(id);
+        ImageFile actualImageFile = profileEditMapper.getImageFileById(id);
+
         // Then
-        assertEquals(expectImageFile, resultImageFile);
+        assertEquals(expectImageFile, actualImageFile);
     }
 }
