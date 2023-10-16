@@ -50,8 +50,8 @@ jobs:
 
       - name: Dump database before tests
         run: |
-          docker-compose -f docker-compose.test.yml exec -T mysql sh -c "mysqldump -h mysql -P 3306 -u root -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE > /tmp/db-dump.sql"
-          docker cp mysql:/tmp/db-dump.sql ./db-dump.sql
+          docker-compose -f docker-compose.test.yml exec -T mysql sh -c "mysqldump -h mysql -P 3306 -u root -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE > /tmp/db-dump.sql" || exit 0
+          docker cp mysql:/tmp/db-dump.sql ./db-dump.sql || exit 0
 
       - name: Set executable permission for gradlew
         run: chmod +x ./api/crewsync/gradlew
