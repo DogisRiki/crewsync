@@ -61,6 +61,7 @@ jobs:
           docker-compose -f docker-compose.test.yml run api bash -c "cd ./crewsync && ./gradlew test"
 
       - name: Archive database dump
+        if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
           name: db-dump
