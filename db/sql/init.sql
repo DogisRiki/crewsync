@@ -104,9 +104,9 @@ VALUES
 INSERT INTO
   user_roles (user_id, role, delflg)
 VALUES
-  (1, '03', '0'),
-  (2, '02', '0'),
-  (3, '01', '0');
+  (000000119, '03', '0'),
+  (000000120, '02', '0'),
+  (000000121, '01', '0');
 
 INSERT INTO
     codemst (code_id, code, code_nm, delflg)
