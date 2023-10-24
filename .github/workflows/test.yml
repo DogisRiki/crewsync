@@ -48,12 +48,24 @@ jobs:
           docker-compose -f docker-compose.test.yml up -d db
           docker-compose -f docker-compose.test.yml build api
 
+      - name: Dump database before tests
+        run: |
+          docker-compose -f docker-compose.test.yml exec -T db sh -c "mysqldump -h mysql -P 3306 -u root -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE > /tmp/db-dump.sql" || (echo "mysqldump command failed" && docker-compose -f docker-compose.test.yml logs db && exit 1)
+          docker cp mysql:/tmp/db-dump.sql ./db-dump.sql
+
       - name: Set executable permission for gradlew
         run: chmod +x ./api/crewsync/gradlew
 
       - name: Run tests
         run: |
           docker-compose -f docker-compose.test.yml run api bash -c "cd ./crewsync && ./gradlew test"
+
+      - name: Archive database dump
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: db-dump
+          path: ./db-dump.sql
 
       - name: Archive unit test results
         uses: actions/upload-artifact@v2
