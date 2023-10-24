@@ -54,7 +54,6 @@ jobs:
           docker cp mysql:/tmp/db-dump.sql ./db-dump.sql
           docker-compose -f docker-compose.test.yml exec -T db sh -c "mysql -h mysql -P 3306 -u root -p$MYSQL_ROOT_PASSWORD $MYSQL_DATABASE -e 'SELECT * FROM users;' > /tmp/users-output.txt" || (echo "SELECT command failed" && docker-compose -f docker-compose.test.yml logs db && exit 1)
           docker cp mysql:/tmp/users-output.txt ./users-output.txt
-          cat ./users-output.txt
           
       - name: Set executable permission for gradlew
         run: chmod +x ./api/crewsync/gradlew
@@ -70,6 +69,13 @@ jobs:
           name: db-dump
           path: ./db-dump.sql
 
+      - name: Archive select from
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: select-from
+          path: ./users-output.txt
+          
       - name: Archive unit test results
         uses: actions/upload-artifact@v2
         with:
