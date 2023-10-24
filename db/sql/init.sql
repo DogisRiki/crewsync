@@ -95,6 +95,20 @@ CREATE TABLE IF NOT EXISTS post_ratings (
 ) AUTO_INCREMENT=158 ROW_FORMAT=DYNAMIC;
 
 INSERT INTO
+  users
+VALUES
+  ('admin@crewsync.jp', CURDATE(), 'admin', '$2a$10$hf5kUGtOvvk.K6s7xBRGAeZ7a7MC0aDAjWnzMPV1iGFkCfccxzFFK', 0, 0, '00000001', '0000000', '0000', '/img/00_profile/00000001/golden.jpg'),
+  ('manager@crewsync.jp', CURDATE(), 'manager', '$2a$10$MWOjX5gNNjlEVRihzt/avuX3Vfx9vX5LtBZFjkKGKuDHxmGxwnviO', 0, 0, '00000002', '0000001', '0001', '/img/00_profile/00000002/husky.jpg'),
+  ('user@crewsync.jp', CURDATE(), 'user', '$2a$10$82fBEyPExZYKFcahDPnA7OxIj4cY8d/fK27k5FHaR0cRo6AsEiDFC', 0, 0, '00000003', '0000001', '0002', '/img/00_profile/00000003/doberman.jpg');
+
+INSERT INTO
+  user_roles
+VALUES
+  (1, '03', '0'),
+  (2, '02', '0'),
+  (3, '01', '0');
+
+INSERT INTO
     codemst (code_id, code, code_nm, delflg)
 VALUES
     (1, '01', 'ROLE_USER', '0'),
@@ -124,17 +138,3 @@ VALUES
     ('0002', '2023-01-01', '課長'),
     ('0003', '2023-01-01', '係長'),
     ('0004', '2023-01-01', '一般');
-
-INSERT INTO
-  users
-VALUES
-  ('admin@crewsync.jp', CURDATE(), 'admin', '$2a$10$hf5kUGtOvvk.K6s7xBRGAeZ7a7MC0aDAjWnzMPV1iGFkCfccxzFFK', 0, 0, '00000001', '0000000', '0000', '/img/00_profile/00000001/golden.jpg'),
-  ('manager@crewsync.jp', CURDATE(), 'manager', '$2a$10$MWOjX5gNNjlEVRihzt/avuX3Vfx9vX5LtBZFjkKGKuDHxmGxwnviO', 0, 0, '00000002', '0000001', '0001', '/img/00_profile/00000002/husky.jpg'),
-  ('user@crewsync.jp', CURDATE(), 'user', '$2a$10$82fBEyPExZYKFcahDPnA7OxIj4cY8d/fK27k5FHaR0cRo6AsEiDFC', 0, 0, '00000003', '0000001', '0002', '/img/00_profile/00000003/doberman.jpg');
-
-INSERT INTO
-  user_roles
-VALUES
-  (1, '03', '0'),
-  (2, '02', '0'),
-  (3, '01', '0');
