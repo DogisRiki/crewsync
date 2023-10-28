@@ -55,10 +55,9 @@ jobs:
         run: |
           docker-compose -f docker-compose.test.yml run api bash -c "cd ./crewsync && ./gradlew test"
 
-      - name: Verify cache directories # キャッシュが生成されているか調査
+      - name: Verify cache directories # キャッシュが生成されているか確認
         run: |
-          ls -la ~/.gradle/caches
-          ls -la ~/.gradle/wrapper
+          docker-compose -f docker-compose.test.yml run api bash -c "ls -la /root/.gradle/caches && ls -la /root/.gradle/wrapper"
           
       - name: Archive unit test results
         if: ${{ always() }}
