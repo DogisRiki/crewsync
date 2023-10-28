@@ -29,15 +29,11 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            ./api/crewsync/.gradle/caches
-            ./api/crewsync/.gradle/wrapper
+            ~/.gradle/caches
+            ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Create Gradle cache directories (if not exist)
-        run: |
-          mkdir -p ./api/crewsync/.gradle/caches
-          mkdir -p ./api/crewsync/.gradle/wrapper
 
       - name: Setup Docker Compose
         run: |
