@@ -52,7 +52,7 @@ jobs:
 
       - name: Run tests
         run: |
-          docker-compose -f docker-compose.test.yml run api bash -c "cd ./crewsync && ./gradlew test && ls -la ~/.gradle && ls -la ~/.gradle > dir.txt "
+          docker-compose -f docker-compose.test.yml run api bash -c "cd ./crewsync && ./gradlew test"
 
       - name: Archive unit test results
         if: ${{ always() }}
