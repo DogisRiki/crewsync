@@ -43,14 +43,14 @@ jobs:
 
       - name: Run tests
         run: |
-          docker-compose -f docker-compose.test.yml run api bash -c "cd ./crewsync && ./gradlew test && ls -la ~ > dir.txt"
+          docker-compose -f docker-compose.test.yml run api bash -c "cd ./crewsync && ./gradlew test && ls -la ~ && ls -la ~ > dir.txt "
           
       - name: output dir
         if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
           name: dir-output
-          path: dir.txt
+          path: api/crewsync/dir.txt
 
       - name: Archive unit test results
         if: ${{ always() }}
