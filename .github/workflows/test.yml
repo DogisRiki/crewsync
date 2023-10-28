@@ -57,14 +57,14 @@ jobs:
           
       - name: Check /workspace/crewsync directories
         run: |
-          docker-compose -f docker-compose.test.yml run api bash -c "ls -la /workspace/crewsync" > crewsync.txt
+          docker-compose -f docker-compose.test.yml run api bash -c "ls -la /workspace/crewsync/.gradle" > gradle.txt
 
       - name: Upload directories listing as artifact
         uses: actions/upload-artifact@v2
         with:
           name: directories
           path: |
-            crewsync.txt
+            gradle.txt
 
       # - name: Check Gradle properties
       #   run: |
