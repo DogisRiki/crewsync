@@ -18,6 +18,7 @@ services:
       dockerfile: Test.Dockerfile
     env_file:
       - ./api/db-access.env
+    tty: true
     volumes:
       - gradle-cache:/root/.gradle
     depends_on:
