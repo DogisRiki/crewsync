@@ -47,10 +47,6 @@ jobs:
           echo "SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}" >> ./api/db-access.env
           docker-compose -f docker-compose.test.yml up -d db
           docker-compose -f docker-compose.test.yml build api
-
-      - name: Check caches and wrapper directories in .gradle
-        run: |
-          docker-compose -f docker-compose.test.yml run api bash -c "ls -la /workspace/***/.gradle/caches && ls -la /workspace/***/.gradle/wrapper"
           
       - name: Set executable permission for gradlew
         run: chmod +x ./api/crewsync/gradlew
@@ -58,6 +54,10 @@ jobs:
       - name: Run tests
         run: |
           docker-compose -f docker-compose.test.yml run api bash -c "cd ./crewsync && ./gradlew test"
+          
+      - name: Check caches and wrapper directories in .gradle
+        run: |
+          docker-compose -f docker-compose.test.yml run api bash -c "ls -la /workspace/***/.gradle/caches && ls -la /workspace/***/.gradle/wrapper"
 
       - name: Archive unit test results
         if: ${{ always() }}
