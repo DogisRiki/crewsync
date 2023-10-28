@@ -54,10 +54,10 @@ jobs:
       - name: Run tests
         run: |
           docker-compose -f docker-compose.test.yml run api bash -c "cd ./crewsync && ./gradlew test"
-          
-      - name: Check caches and wrapper directories in .gradle
+
+      - name: Check Gradle properties
         run: |
-          docker-compose -f docker-compose.test.yml run api bash -c "ls -la /workspace/***/.gradle/caches && ls -la /workspace/***/.gradle/wrapper"
+          docker-compose -f docker-compose.test.yml run api bash -c "./gradlew properties | grep 'Gradle user home'"
 
       - name: Archive unit test results
         if: ${{ always() }}
