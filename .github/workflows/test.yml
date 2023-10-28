@@ -25,15 +25,15 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
-      # - name: Cache Gradle packages
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: |
-      #       ./api/crewsync/.gradle/caches
-      #       ./api/crewsync/.gradle/wrapper
-      #     key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-gradle-
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            /workspace/***/.gradle/caches
+            /workspace/***/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Setup Docker Compose
         run: |
@@ -54,10 +54,6 @@ jobs:
       - name: Run tests
         run: |
           docker-compose -f docker-compose.test.yml run api bash -c "cd ./crewsync && ./gradlew test"
-          
-      - name: Find .gradle directory in container # Gradleを探す
-        run: |
-          docker-compose -f docker-compose.test.yml run api bash -c "find / -type d -name .gradle 2>/dev/null"
 
       - name: Archive unit test results
         if: ${{ always() }}
