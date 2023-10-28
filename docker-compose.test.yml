@@ -18,11 +18,10 @@ services:
       dockerfile: Test.Dockerfile
     env_file:
       - ./api/db-access.env
-    tty: true
     volumes:
-      - ./api:/workspace
-      - ./api/img:/img
+      - gradle-cache:/root/.gradle
     depends_on:
       - db
 volumes:
   db-data:
+  gradle-cache:

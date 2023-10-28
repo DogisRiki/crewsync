@@ -37,20 +37,22 @@ jobs:
           echo "SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}" >> ./api/db-access.env
           docker-compose -f docker-compose.test.yml up -d db
           docker-compose -f docker-compose.test.yml build api
-          
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            gradle-cache
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name: Set executable permission for gradlew
         run: chmod +x ./api/crewsync/gradlew
 
       - name: Run tests
         run: |
           docker-compose -f docker-compose.test.yml run api bash -c "cd ./crewsync && ./gradlew test && ls -la ~/.gradle && ls -la ~/.gradle > dir.txt "
-          
-      - name: output dir
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: dir-output
-          path: api/crewsync/dir.txt
 
       - name: Archive unit test results
         if: ${{ always() }}
