@@ -55,10 +55,6 @@ jobs:
         run: |
           docker-compose -f docker-compose.test.yml run api bash -c "cd ./crewsync && ./gradlew test"
 
-      - name: Verify cache directories1 # キャッシュが生成されているか確認
-        run: |
-          docker-compose -f docker-compose.test.yml run api bash -c "ls -la ~/.gradle/caches && ls -la ~/.gradle/wrapper"
-
       - name: Verify cache directories2 # キャッシュが生成されているか確認
         run: |
           docker-compose -f docker-compose.test.yml run api bash -c "ls -la .api/crewsync/.gradle/caches && ls -la .api/crewsync/.gradle/wrapper"
