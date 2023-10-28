@@ -55,26 +55,26 @@ jobs:
         run: |
           docker-compose -f docker-compose.test.yml run api bash -c "cd ./crewsync && ./gradlew test"
 
-      - name: Check current directories
+      - name: Check /root directories
         run: |
-          docker-compose -f docker-compose.test.yml run api bash -c "ls -la" > current_directories.txt
+          docker-compose -f docker-compose.test.yml run api bash -c "ls -la /root" > root.txt
 
-      - name: Check home directories
+      - name: Check /home directories
         run: |
-          docker-compose -f docker-compose.test.yml run api bash -c "ls -la ~" > home_directories.txt
+          docker-compose -f docker-compose.test.yml run api bash -c "ls -la /home" > home.txt
           
-      - name: Check root directories
+      - name: Check /workspace directories
         run: |
-          docker-compose -f docker-compose.test.yml run api bash -c "ls -la /" > root_directories.txt
+          docker-compose -f docker-compose.test.yml run api bash -c "ls -la /workspace" > workspace.txt
 
       - name: Upload directories listing as artifact
         uses: actions/upload-artifact@v2
         with:
           name: directories-listing
           path: |
-            current_directories.txt
-            home_directories.txt
-            root_directories.txt
+            root.txt
+            home.txt
+            workspace.txt
 
       # - name: Check Gradle properties
       #   run: |
