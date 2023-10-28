@@ -55,9 +55,13 @@ jobs:
         run: |
           docker-compose -f docker-compose.test.yml run api bash -c "cd ./crewsync && ./gradlew test"
 
-      - name: Check Gradle properties
+      - name: Check directories
         run: |
-          docker-compose -f docker-compose.test.yml run api bash -c "./gradlew properties | grep 'Gradle user home'"
+          docker-compose -f docker-compose.test.yml run api bash -c "ls -la"
+
+      # - name: Check Gradle properties
+      #   run: |
+      #     docker-compose -f docker-compose.test.yml run api bash -c "./gradlew properties | grep 'Gradle user home'"
 
       - name: Archive unit test results
         if: ${{ always() }}
