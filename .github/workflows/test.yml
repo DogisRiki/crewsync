@@ -38,15 +38,6 @@ jobs:
           docker-compose -f docker-compose.test.yml up -d db
           docker-compose -f docker-compose.test.yml build api
 
-      - name: Cache Gradle packages
-        uses: actions/cache@v3
-        with:
-          path: |
-            gradle-cache
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
       - name: Set executable permission for gradlew
         run: chmod +x ./api/crewsync/gradlew
 
